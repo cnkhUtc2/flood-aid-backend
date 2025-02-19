@@ -34,7 +34,7 @@ export class Post extends AggregateRoot {
 
     @SuperProp({
         type: String,
-        required: true,
+        required: false,
         unique: true,
         cms: {
             label: 'Slug',
