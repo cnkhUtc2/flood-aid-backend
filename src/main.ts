@@ -82,6 +82,5 @@ async function bootstrap() {
     }
 
     await app.listen(appSettings.port);
-    console.log(process.env.PORT);
 }
 bootstrap();
