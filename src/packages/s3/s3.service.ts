@@ -66,7 +66,7 @@ export class S3Service {
                 Bucket: `${appSettings.s3.bucket}`,
                 Body: buffer,
                 Key: key,
-                ACL: 'public-read',
+                // ACL: 'public-read',
                 ContentType: mimetype,
             });
             await this.s3.send(command);
@@ -110,7 +110,7 @@ export class S3Service {
                 Bucket: `${appSettings.s3.bucket}/` + folder,
                 Body: buffer,
                 Key: key,
-                ACL: 'public-read',
+                // ACL: 'public-read',
                 ContentType: mimetype,
             });
 

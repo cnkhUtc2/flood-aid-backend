@@ -43,16 +43,27 @@ export class CreateRoleDto extends PartialType(ExcludeDto) {
     @Max(100)
     type: number;
 
-    @SuperApiProperty({
-        type: [PermissionDto],
-    })
+    // @SuperApiProperty({
+    //     type: [PermissionDto],
+    // })
+    // @Transform(({ value }) => convertStringToObjectId(value, true))
+    // @IsExist({
+    //     collectionName: COLLECTION_NAMES.PERMISSION,
+    //     message: 'permissions must be an array of valid permission ids',
+    //     isArray: true,
+    // })
+    // @IsNotEmpty()
+    // @IsArray()
+    // permissions: PermissionDto[];
+    @SuperApiProperty({ type: [String] })
     @Transform(({ value }) => convertStringToObjectId(value, true))
     @IsExist({
         collectionName: COLLECTION_NAMES.PERMISSION,
-        message: 'permissions must be an array of valid permission ids',
+        message: 'permissions must be an array of valid permission IDs',
         isArray: true,
     })
     @IsNotEmpty()
     @IsArray()
-    permissions: PermissionDto[];
+    @IsString({ each: true })
+    permissions: string[];
 }

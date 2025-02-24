@@ -66,22 +66,42 @@ export class UserService
         return result;
     }
 
+    // async createOne(
+    //     createUserDto: CreateUserDto,
+    //     user: UserPayload,
+    //     options?: Record<string, any>,
+    // ) {
+    //     const { _id: userId } = user;
+    //     const { password } = createUserDto;
+
+    //     const result = await this.userModel.create({
+    //         ...createUserDto,
+    //         ...options,
+    //         createdBy: userId,
+    //         password: await this.hashPassword(password),
+    //     });
+
+    //     return result;
+    // }
+
     async createOne(
         createUserDto: CreateUserDto,
-        user: UserPayload,
+        user?: UserPayload,
         options?: Record<string, any>,
     ) {
-        const { _id: userId } = user;
         const { password } = createUserDto;
 
-        const result = await this.userModel.create({
+        const newUser = await this.userModel.create({
             ...createUserDto,
             ...options,
-            createdBy: userId,
             password: await this.hashPassword(password),
         });
 
-        return result;
+        newUser.createdBy = user?._id || newUser._id;
+
+        await newUser.save();
+
+        return newUser;
     }
 
     async updateOneById(

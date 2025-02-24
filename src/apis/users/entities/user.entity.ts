@@ -60,7 +60,7 @@ export class User extends AggregateRoot {
 
     @SuperProp({
         type: Types.ObjectId,
-        required: true,
+        required: false,
         ref: COLLECTION_NAMES.ROLE,
         refClass: Role,
         cms: {
