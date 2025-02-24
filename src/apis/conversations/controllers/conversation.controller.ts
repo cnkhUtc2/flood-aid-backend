@@ -24,17 +24,17 @@ export class ConversationController {
     constructor(private conversationService: ConversationService) {}
 
     @SuperGet({ route: '/' })
-    getALl(@Query(new PagingDtoPipe()) queryParams: ExtendedPagingDto) {
-        return this.conversationService.getAll(queryParams);
+    async getALl(@Query(new PagingDtoPipe()) queryParams: ExtendedPagingDto) {
+        return await this.conversationService.getAll(queryParams);
     }
 
     @SuperGet({ route: '/:id' })
-    getOne(@Param('id') id: string) {
-        return this.conversationService.getByUserId(id);
+    async getOne(@Param('id') id: string) {
+        return await this.conversationService.getByUserId(id);
     }
 
     @SuperPost({ route: 'me', dto: CreateConversationDto })
-    createOne(@Body() dto: CreateConversationDto) {
-        return this.conversationService.creatOne(dto);
+    async createOne(@Body() dto: CreateConversationDto) {
+        return await this.conversationService.creatOne(dto);
     }
 }

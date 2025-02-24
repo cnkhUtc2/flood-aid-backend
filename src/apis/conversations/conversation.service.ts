@@ -16,16 +16,16 @@ export class ConversationService extends BaseService<ConversationDocument> {
         super(conversationModel);
     }
     async getAll(queryParams: ExtendedPagingDto) {
-        const result = this.getAll(queryParams);
+        const result = await this.getAll(queryParams);
         return result;
     }
 
     async creatOne(dto: CreateConversationDto) {
-        const newConversation = this.creatOne(dto);
+        const newConversation = await this.creatOne(dto);
         return newConversation;
     }
 
-    getByUserId(id: string) {
+    async getByUserId(id: string) {
         return this.conversationModel.find({
             members: { $in: [id] },
         });

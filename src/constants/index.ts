@@ -22,6 +22,7 @@ export enum COLLECTION_NAMES {
     USER_REFERRAL = 'userReferrals',
     PAGE = 'pages',
     CONVERSATION = 'conversations',
+    MESSAGE = 'message',
 }
 
 export enum CountryCode {

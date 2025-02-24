@@ -12,6 +12,10 @@ import { MediaController } from 'src/apis/media/controllers/medias.controller';
 import { MetadataController } from 'src/apis/metadata/controllers/metadata.controller';
 import { PostsController } from 'src/apis/posts/controllers/posts.controller';
 import { UserController } from 'src/apis/users/controllers/user.controller';
+import { ConversationController } from 'src/apis/conversations/controllers/conversation.controller';
+import { MessageController } from 'src/apis/message/controllers/message.controller';
+import { ConversationModule } from 'src/apis/conversations/conversation.module';
+import { MessageModule } from 'src/apis/message/message.module';
 
 @Module({
     imports: [
@@ -22,6 +26,8 @@ import { UserController } from 'src/apis/users/controllers/user.controller';
         CategoriesModule,
         PostsModule,
         MetadataModule,
+        ConversationModule,
+        MessageModule,
     ],
     controllers: [
         UserController,
@@ -30,6 +36,8 @@ import { UserController } from 'src/apis/users/controllers/user.controller';
         CategoriesController,
         PostsController,
         MetadataController,
+        ConversationController,
+        MessageController,
     ],
     providers: [],
 })

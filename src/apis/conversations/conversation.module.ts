@@ -7,19 +7,20 @@ import {
     Conversation,
     ConversationSchema,
 } from './entities/conversation.entity';
+import { ConversationService } from './conversation.service';
 
 @Module({
     imports: [
         ExtendedMongooseModule.forFeature([
             {
-                name: COLLECTION_NAMES.POST,
+                name: COLLECTION_NAMES.CONVERSATION,
                 schema: ConversationSchema,
                 entity: Conversation,
             },
         ]),
     ],
     controllers: [],
-    providers: [ChatGateway],
-    exports: [ChatGateway],
+    providers: [ChatGateway, ConversationService],
+    exports: [ChatGateway, ConversationService],
 })
 export class ConversationModule {}

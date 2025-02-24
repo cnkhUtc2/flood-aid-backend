@@ -15,7 +15,7 @@ export class AuthService {
     ) {}
 
     async login(user: UserPayload) {
-        const tokens = this.getTokens(user);
+        const tokens = await this.getTokens(user);
         return tokens;
     }
 
