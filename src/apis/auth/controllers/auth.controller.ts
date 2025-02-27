@@ -12,7 +12,7 @@ import { Me } from 'src/decorators/me.decorator';
 import { UserPayload } from 'src/base/models/user-payload.model';
 import { CreateUserDto } from 'src/apis/users/dto/create-user.dto';
 
-@Controller()
+@Controller('auth')
 @Resource()
 @ApiTags('Front: Auth')
 @AuditLog({

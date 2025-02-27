@@ -17,9 +17,9 @@ export class Conversation extends AggregateRoot {
         ref: COLLECTION_NAMES.USER,
         refClass: User,
     })
-    @AutoPopulate({
-        ref: COLLECTION_NAMES.USER,
-    })
+    // @AutoPopulate({
+    //     ref: COLLECTION_NAMES.USER,
+    // })
     members: [Types.ObjectId];
 }
 export type ConversationDocument = Conversation & Document;

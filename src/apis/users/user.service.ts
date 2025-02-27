@@ -21,6 +21,8 @@ import { ExtendedInjectModel } from '@libs/super-core';
 import { ExtendedPagingDto } from 'src/pipes/page-result.dto.pipe';
 import { ExtendedModel } from '@libs/super-core/interfaces/extended-model.interface';
 import { RolesService } from '@libs/super-authorize/modules/roles/roles.service';
+import { AddFriendDto } from './dto/add-friend.dto,';
+import { Type } from 'class-transformer';
 
 @Injectable()
 export class UserService
@@ -266,5 +268,17 @@ export class UserService
                 items: usersBannedInCache.items,
             });
         }
+    }
+
+    async addFriend(friend: AddFriendDto, user: UserPayload) {
+        return await this.userModel.findByIdAndUpdate(user._id, {
+            $push: { friends: new Types.ObjectId(friend.friendId) },
+        });
+    }
+
+    async getById(id: string) {
+        return await this.userModel
+            .findOne({ _id: new Types.ObjectId(id) })
+            .exec();
     }
 }

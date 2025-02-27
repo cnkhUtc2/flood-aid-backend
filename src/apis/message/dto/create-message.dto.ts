@@ -26,7 +26,6 @@ export class CreateMessageDto {
         },
     })
     @IsNotEmpty()
-    @IsString()
     @Transform(({ value }) => convertStringToObjectId(value))
     sender: Types.ObjectId;
 
@@ -40,7 +39,6 @@ export class CreateMessageDto {
         },
     })
     @IsNotEmpty()
-    @IsString()
     @Transform(({ value }) => convertStringToObjectId(value))
     conversation: Types.ObjectId;
 }

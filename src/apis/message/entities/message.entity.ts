@@ -1,4 +1,5 @@
 import { SuperProp } from '@libs/super-core';
+import { AutoPopulate } from '@libs/super-search';
 import { Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Aggregate, Types } from 'mongoose';
 import { Conversation } from 'src/apis/conversations/entities/conversation.entity';
@@ -24,7 +25,7 @@ export class Message extends AggregateRoot {
         refClass: User,
         required: true,
     })
-    sender: User;
+    sender: Types.ObjectId;
 
     @SuperProp({
         type: Types.ObjectId,

@@ -41,17 +41,18 @@ export class CreateUserDto extends PartialType(ExcludeDto) {
 
     @SuperApiProperty({
         type: String,
-        required: false,
+        required: true,
+        default: '667b7b83462a35d0fbe5d251',
         title: 'Role Of User',
         cms: {
             ref: COLLECTION_NAMES.ROLE,
         },
     })
     @Transform(({ value }) => convertStringToObjectId(value))
-    // @IsExist({
-    //     collectionName: COLLECTION_NAMES.ROLE,
-    //     message: 'Role does not exist',
-    // })
-    // @IsNotEmpty()
+    @IsExist({
+        collectionName: COLLECTION_NAMES.ROLE,
+        message: 'Role does not exist',
+    })
+    @IsNotEmpty()
     role: Types.ObjectId;
 }
