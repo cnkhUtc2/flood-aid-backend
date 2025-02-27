@@ -104,6 +104,22 @@ export class User extends AggregateRoot {
     inviteCode: string;
 
     @SuperProp({
+        type: [Types.ObjectId],
+        ref: COLLECTION_NAMES.USER,
+        refClass: User,
+        required: false,
+        cms: {
+            label: 'friends',
+            tableShow: true,
+            columnPosition: 98,
+        },
+    })
+    @AutoPopulate({
+        ref: COLLECTION_NAMES.USER,
+    })
+    friends: Types.ObjectId[];
+
+    @SuperProp({
         type: Types.ObjectId,
         ref: COLLECTION_NAMES.USER,
         refClass: User,

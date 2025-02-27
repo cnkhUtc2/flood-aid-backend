@@ -6,6 +6,8 @@ import { COLLECTION_NAMES } from 'src/constants';
 import { ExtendedModel } from '@libs/super-core/interfaces/extended-model.interface';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { UserPayload } from 'src/base/models/user-payload.model';
+import { Types } from 'mongoose';
+import { Type } from 'class-transformer';
 
 @Injectable()
 export class MessageService extends BaseService<MessageDocument> {
@@ -21,6 +23,8 @@ export class MessageService extends BaseService<MessageDocument> {
     }
 
     async getById(id: string) {
-        return this.getOne(id);
+        return await this.messageModel
+            .find({ conversation: new Types.ObjectId(id) })
+            .exec();
     }
 }

@@ -1,4 +1,4 @@
-import { Resource } from '@libs/super-authorize';
+import { PERMISSION, Resource, SuperAuthorize } from '@libs/super-authorize';
 import { Body, Controller, Param } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { COLLECTION_NAMES } from 'src/constants';
@@ -20,6 +20,7 @@ import { UserPayload } from 'src/base/models/user-payload.model';
 export class MessageController {
     constructor(private messageService: MessageService) {}
     @SuperPost({ route: '/create', dto: CreateMessageDto })
+    @SuperAuthorize(PERMISSION.POST)
     async createOne(
         @Body() dto: CreateMessageDto,
         @Me() userPayload: UserPayload,
@@ -28,7 +29,7 @@ export class MessageController {
     }
 
     @SuperGet({ route: '/:id' })
-    async getById(@Param() id: string) {
+    async getById(@Param('id') id: string) {
         return await this.messageService.getById(id);
     }
 }

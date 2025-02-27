@@ -6,6 +6,8 @@ import { COLLECTION_NAMES } from 'src/constants';
 import { ExtendedModel } from '@libs/super-core/interfaces/extended-model.interface';
 import { ExtendedPagingDto } from 'src/pipes/page-result.dto.pipe';
 import { CreateConversationDto } from './dto/create-conversation.dto';
+import { UserPayload } from 'src/base/models/user-payload.model';
+import { Types } from 'mongoose';
 
 @Injectable()
 export class ConversationService extends BaseService<ConversationDocument> {
@@ -20,14 +22,18 @@ export class ConversationService extends BaseService<ConversationDocument> {
         return result;
     }
 
-    async creatOne(dto: CreateConversationDto) {
-        const newConversation = await this.creatOne(dto);
+    async createOne(dto: CreateConversationDto) {
+        const newConversation = await this.conversationModel.create({
+            members: [dto.senderId, dto.receiverId],
+        });
         return newConversation;
     }
 
     async getByUserId(id: string) {
-        return this.conversationModel.find({
-            members: { $in: [id] },
-        });
+        return await this.conversationModel
+            .find({
+                members: { $in: [new Types.ObjectId(id)] },
+            })
+            .exec();
     }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Param, Query } from '@nestjs/common';
 import { ConversationService } from '../conversation.service';
 import { CreateConversationDto } from '../dto/create-conversation.dto';
 import { Resource } from '@libs/super-authorize';
@@ -7,7 +7,6 @@ import { AUDIT_EVENT } from 'src/packages/audits/constants';
 import { COLLECTION_NAMES } from 'src/constants';
 import { AuditLog } from 'src/packages/audits/decorators/audits.decorator';
 import { SuperGet, SuperPost } from '@libs/super-core';
-import { PagingDto } from 'src/base/dto/paging.dto';
 import {
     ExtendedPagingDto,
     PagingDtoPipe,
@@ -33,8 +32,8 @@ export class ConversationController {
         return await this.conversationService.getByUserId(id);
     }
 
-    @SuperPost({ route: 'me', dto: CreateConversationDto })
-    async createOne(@Body() dto: CreateConversationDto) {
-        return await this.conversationService.creatOne(dto);
+    @SuperPost({ route: 'create-conversation', dto: CreateConversationDto })
+    async createConversation(@Body() dto: CreateConversationDto) {
+        return this.conversationService.createOne(dto);
     }
 }

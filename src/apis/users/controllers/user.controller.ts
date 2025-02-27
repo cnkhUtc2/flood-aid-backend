@@ -1,4 +1,4 @@
-import { Body, Controller, Req } from '@nestjs/common';
+import { Body, Controller, Param, Req } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { UserPayload } from 'src/base/models/user-payload.model';
 import { COLLECTION_NAMES } from 'src/constants';
@@ -7,8 +7,9 @@ import { AUDIT_EVENT } from 'src/packages/audits/constants';
 import { UpdateMeDto } from '../dto/update-me.dto';
 import { UserService } from '../user.service';
 import { PERMISSION, Resource, SuperAuthorize } from '@libs/super-authorize';
-import { SuperGet, SuperPut } from '@libs/super-core';
+import { SuperGet, SuperPost, SuperPut } from '@libs/super-core';
 import { Me } from 'src/decorators/me.decorator';
+import { AddFriendDto } from '../dto/add-friend.dto,';
 
 @Controller('users')
 @Resource('users')
@@ -25,6 +26,22 @@ export class UserController {
     async getMe(@Me() user: UserPayload) {
         const result = await this.userService.getMe(user);
         return result;
+    }
+
+    @SuperGet({ route: 'get/:id' })
+    @SuperAuthorize(PERMISSION.GET)
+    async getById(@Param('id') id: string) {
+        const result = await this.userService.getById(id);
+        return result;
+    }
+
+    @SuperPost({ route: 'add-friend', dto: AddFriendDto })
+    @SuperAuthorize(PERMISSION.POST)
+    async addFriend(
+        @Body() addFriendDto: AddFriendDto,
+        @Me() user: UserPayload,
+    ) {
+        return this.userService.addFriend(addFriendDto, user);
     }
 
     @SuperPut({ route: 'me', dto: UpdateMeDto })
