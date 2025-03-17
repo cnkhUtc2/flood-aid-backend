@@ -20,7 +20,7 @@ import { SuperCacheModule } from '@libs/super-cache/super-cache.module';
         }),
         MongooseModule.forRootAsync({
             useFactory: async () => ({
-                uri: appSettings.mongoose.uri,
+                uri: appSettings.mongoose.uri_production,
             }),
         }),
         EventEmitterModule.forRoot(),

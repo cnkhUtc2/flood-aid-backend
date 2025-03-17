@@ -20,6 +20,7 @@ export const appSettings = {
     },
     mongoose: {
         uri: process.env.MONGO_URI,
+        uri_production: process.env.MONGO_URI_PRODUCTION,
     },
     s3: {
         accessKey: process.env.AWS_ACCESS_KEY_ID,
