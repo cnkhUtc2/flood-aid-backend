@@ -56,31 +56,18 @@ export class BaseService<T extends Document> {
         });
     }
 
-    // async getOne(
-    //     _id: Types.ObjectId,
-    //     options?: Record<string, any>,
-    // ): Promise<any> {
-    //     const result = await this.model
-    //         .findOne({
-    //             $or: [{ _id }, { slug: _id }],
-    //             ...options,
-    //         })
-    //         .exec();
-
-    //     return result;
-    // }
-
     async getOne(
-        identifier: Types.ObjectId | string,
+        _id: Types.ObjectId,
         options?: Record<string, any>,
     ): Promise<any> {
-        const query: FilterQuery<T> =
-            typeof identifier === 'string' &&
-            !Types.ObjectId.isValid(identifier)
-                ? { email: identifier }
-                : { _id: identifier };
+        const result = await this.model
+            .findOne({
+                $or: [{ _id }, { slug: _id }],
+                ...options,
+            })
+            .exec();
 
-        return this.model.findOne({ ...query, ...options }).exec();
+        return result;
     }
 
     async createOne(

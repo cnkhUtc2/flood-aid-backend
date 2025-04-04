@@ -4,7 +4,7 @@ import {
     OnModuleInit,
     UnprocessableEntityException,
 } from '@nestjs/common';
-import { Types } from 'mongoose';
+import { FilterQuery, Types } from 'mongoose';
 import { BaseService } from 'src/base/service/base.service';
 import { UserDocument } from './entities/user.entity';
 import { COLLECTION_NAMES } from 'src/constants';
@@ -65,6 +65,12 @@ export class UserService
 
     async getAllAdmin(queryParams: ExtendedPagingDto) {
         const result = await this.getAll(queryParams);
+        return result;
+    }
+
+    async getOne(options?: Record<string, any>): Promise<any> {
+        const result = await this.userModel.findOne({ ...options }).exec();
+
         return result;
     }
 
