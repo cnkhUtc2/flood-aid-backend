@@ -13,11 +13,11 @@ import { MetadataController } from 'src/apis/metadata/controllers/metadata.contr
 import { PostsController } from 'src/apis/posts/controllers/posts.controller';
 import { UserController } from 'src/apis/users/controllers/user.controller';
 import { ConversationController } from 'src/apis/conversations/controllers/conversation.controller';
-import { MessageController } from 'src/apis/message/controllers/message.controller';
+import { MessageController } from 'src/apis/messages/controllers/message.controller';
 import { ConversationModule } from 'src/apis/conversations/conversation.module';
-import { MessageModule } from 'src/apis/message/message.module';
-import { TicketModule } from 'src/apis/ticket/ticket.module';
-import { SupportTicketController } from 'src/apis/ticket/controllers/ticket.controller';
+import { MessageModule } from 'src/apis/messages/message.module';
+import { TicketModule } from 'src/apis/tickets/ticket.module';
+import { SupportTicketController } from 'src/apis/tickets/controllers/ticket.controller';
 
 @Module({
     imports: [
