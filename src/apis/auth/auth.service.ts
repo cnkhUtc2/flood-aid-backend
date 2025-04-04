@@ -20,7 +20,9 @@ export class AuthService {
     }
 
     async register(dto: CreateUserDto, createdByUser?: UserPayload) {
-        const existingUser = await this.userService.getOne(dto.email);
+        const existingUser = await this.userService.getOne({
+            email: dto.email,
+        });
         if (existingUser) {
             throw new BadRequestException('Email already exists');
         }

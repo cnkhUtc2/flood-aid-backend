@@ -23,6 +23,7 @@ export enum COLLECTION_NAMES {
     PAGE = 'pages',
     CONVERSATION = 'conversations',
     MESSAGE = 'message',
+    SUPPORT_TICKET = 'support_tickets',
 }
 
 export enum CountryCode {
