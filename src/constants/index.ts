@@ -24,6 +24,7 @@ export enum COLLECTION_NAMES {
     CONVERSATION = 'conversations',
     MESSAGE = 'message',
     SUPPORT_TICKET = 'support_tickets',
+    PROFILE = 'profiles',
 }
 
 export enum CountryCode {
