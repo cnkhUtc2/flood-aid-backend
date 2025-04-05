@@ -1,5 +1,12 @@
-import { Body, Controller, Param, Req } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import {
+    Body,
+    Controller,
+    Param,
+    Req,
+    UploadedFile,
+    UseInterceptors,
+} from '@nestjs/common';
+import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { UserPayload } from 'src/base/models/user-payload.model';
 import { COLLECTION_NAMES } from 'src/constants';
 import { AuditLog } from 'src/packages/audits/decorators/audits.decorator';
@@ -13,6 +20,9 @@ import { AddFriendDto } from '../dto/add-friend.dto,';
 import { UpdateProfileDto } from 'src/apis/profiles/dto/update-profile.dto';
 import { Types } from 'mongoose';
 import { ProfilesService } from 'src/apis/profiles/profiles.service';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { appSettings } from 'src/configs/app-settings';
+import { IUploadedMulterFile } from 'src/packages/s3/s3.service';
 
 @Controller('users')
 @Resource('users')
@@ -67,6 +77,45 @@ export class UserController {
         );
 
         return updatedProfile;
+    }
+
+    @SuperPost({ route: 'upload-avatar' })
+    @ApiConsumes('multipart/form-data')
+    @ApiBody({
+        description: 'File upload endpoint',
+        schema: {
+            type: 'object',
+            properties: {
+                file: {
+                    type: 'string',
+                    format: 'binary',
+                },
+            },
+        },
+    })
+    @SuperAuthorize(PERMISSION.POST)
+    @UseInterceptors(
+        FileInterceptor('file', {
+            limits: {
+                fileSize: 1024 * 1024 * appSettings.maxFileSize.front,
+            },
+            fileFilter: (req, file, callback) => {
+                if (!file.mimetype.match(/^image\/(jpeg|png|webp)$/)) {
+                    return callback(
+                        new Error('Only image files are allowed!'),
+                        false,
+                    );
+                }
+                callback(null, true);
+            },
+        }),
+    )
+    async uploadAvatar(
+        @Me() user: UserPayload,
+        @UploadedFile() avatar: IUploadedMulterFile,
+    ) {
+        const result = await this.profileService.uploadAvatar(avatar, user);
+        return result;
     }
 
     @SuperPut({ route: 'me', dto: UpdateMeDto })

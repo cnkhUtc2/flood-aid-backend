@@ -40,7 +40,7 @@ export class MediaService extends BaseService<FileDocument> {
             alt: originalname,
             mime: mimetype,
             size,
-            filePath: uploadedFile.url,
+            filePath: appSettings.s3.cloundFront + uploadedFile.key,
             folder,
             createdBy: user._id,
         });

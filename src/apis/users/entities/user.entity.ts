@@ -46,21 +46,6 @@ export class User extends AggregateRoot {
 
     @SuperProp({
         type: Types.ObjectId,
-        ref: COLLECTION_NAMES.FILE,
-        refClass: File,
-        cms: {
-            label: 'Avatar',
-            tableShow: true,
-            columnPosition: 5,
-        },
-    })
-    @AutoPopulate({
-        ref: COLLECTION_NAMES.FILE,
-    })
-    avatar: File;
-
-    @SuperProp({
-        type: Types.ObjectId,
         required: false,
         ref: COLLECTION_NAMES.ROLE,
         refClass: Role,

@@ -3,6 +3,7 @@ import { ProfilesService } from './profiles.service';
 import { ExtendedMongooseModule } from '@libs/super-core/modules/mongoose/extended-mongoose.module';
 import { COLLECTION_NAMES } from 'src/constants';
 import { Profile, ProfileSchema } from './entities/profile.entity';
+import { MediaModule } from '../media/medias.module';
 
 @Module({
     imports: [
@@ -13,6 +14,7 @@ import { Profile, ProfileSchema } from './entities/profile.entity';
                 entity: Profile,
             },
         ]),
+        MediaModule,
     ],
     controllers: [],
     providers: [ProfilesService],

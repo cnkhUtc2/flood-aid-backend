@@ -30,7 +30,7 @@ export class AuthService {
         const newUser = await this.userService.createOne(dto, createdByUser);
         const newProfile = await this.profileService.createOne(newUser._id);
         newUser.profile = newProfile._id;
-        newUser.save();
+        await newUser.save();
 
         return newUser;
     }

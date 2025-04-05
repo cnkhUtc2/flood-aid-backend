@@ -1,5 +1,6 @@
 import { SuperProp } from '@libs/super-core';
 import { AutoPopulate } from '@libs/super-search';
+import { Type } from '@nestjs/common';
 import { Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { User } from 'src/apis/users/entities/user.entity';
@@ -40,11 +41,17 @@ export class Profile extends AggregateRoot {
         type: Types.ObjectId,
         ref: COLLECTION_NAMES.FILE,
         refClass: File,
+        required: false,
+        cms: {
+            label: 'Avatar',
+            tableShow: true,
+            columnPosition: 5,
+        },
     })
     @AutoPopulate({
         ref: COLLECTION_NAMES.FILE,
     })
-    image: File;
+    avatar: Types.ObjectId;
 
     @SuperProp({
         type: Types.ObjectId,
