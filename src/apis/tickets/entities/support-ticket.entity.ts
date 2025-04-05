@@ -25,6 +25,37 @@ export class SupportTicket extends AggregateRoot {
     purpose: string;
 
     @SuperProp({
+        type: String,
+        required: true,
+    })
+    description: string;
+
+    @SuperProp({
+        type: String,
+        required: true,
+        enum: ['low', 'medium', 'high'],
+    })
+    priority: string;
+
+    @SuperProp({
+        type: String,
+        required: true,
+        enum: ['open', 'in_progress', 'resolved'],
+    })
+    status: string;
+
+    @SuperProp({
+        type: String,
+    })
+    location: string;
+
+    // @SuperProp({
+    //     type: [String],
+    //     default: [],
+    // })
+    // attachments: string[];
+
+    @SuperProp({
         type: Types.ObjectId,
         ref: COLLECTION_NAMES.USER,
         refClass: User,
@@ -34,6 +65,7 @@ export class SupportTicket extends AggregateRoot {
     })
     createdBy: Types.ObjectId;
 }
+
 export type SupportTicketDocument = SupportTicket & Document;
 export const SupportTicketSchema = SchemaFactory.createForClass(SupportTicket);
 SupportTicketSchema.plugin(autopopulateSoftDelete);

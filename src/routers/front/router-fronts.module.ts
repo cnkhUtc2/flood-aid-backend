@@ -20,6 +20,7 @@ import { TicketModule } from 'src/apis/tickets/ticket.module';
 import { SupportTicketController } from 'src/apis/tickets/controllers/ticket.controller';
 import { ProfilesModule } from 'src/apis/profiles/profiles.module';
 import { ProfilesController } from 'src/apis/profiles/controllers/profiles.controller';
+import { MailModule } from 'src/apis/mail/mail.module';
 
 @Module({
     imports: [
@@ -34,6 +35,7 @@ import { ProfilesController } from 'src/apis/profiles/controllers/profiles.contr
         MessageModule,
         TicketModule,
         ProfilesModule,
+        MailModule,
     ],
     controllers: [
         UserController,

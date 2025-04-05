@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { SupportTicketService } from './ticket.service';
-import { SupportTicketController } from './controllers/ticket.controller';
 import { ExtendedMongooseModule } from '@libs/super-core/modules/mongoose/extended-mongoose.module';
 import { COLLECTION_NAMES } from 'src/constants';
 import {
     SupportTicket,
     SupportTicketSchema,
 } from './entities/support-ticket.entity';
+import { MailModule } from '../mail/mail.module';
 
 @Module({
     imports: [
@@ -17,6 +17,7 @@ import {
                 entity: SupportTicket,
             },
         ]),
+        MailModule,
     ],
     controllers: [],
     providers: [SupportTicketService],
