@@ -25,6 +25,7 @@ export const appSettings = {
     s3: {
         accessKey: process.env.AWS_ACCESS_KEY_ID,
         secretKey: process.env.AWS_SECRET_ACCESS_KEY,
+        cloundFront: process.env.AWS_CLOUD_FRONT,
         bucket: process.env.AWS_BUCKET_NAME,
         folder: process.env.AWS_FOLDER_NAME_DEFAULT || 'marketplace',
         region: process.env.AWS_REGION,

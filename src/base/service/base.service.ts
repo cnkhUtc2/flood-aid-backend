@@ -102,6 +102,7 @@ export class BaseService<T extends Document> {
         options?: Record<string, any>,
     ) {
         const { _id: userId } = user;
+        console.log(userId);
         const result = await this.model.findOneAndUpdate(
             { _id },
             { ...payload, ...options, updatedBy: userId },

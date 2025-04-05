@@ -4,7 +4,7 @@ import {
     OnModuleInit,
     UnprocessableEntityException,
 } from '@nestjs/common';
-import { FilterQuery, Types } from 'mongoose';
+import { Types } from 'mongoose';
 import { BaseService } from 'src/base/service/base.service';
 import { UserDocument } from './entities/user.entity';
 import { COLLECTION_NAMES } from 'src/constants';
@@ -14,15 +14,12 @@ import _ from 'lodash';
 import bcrypt from 'bcrypt';
 import { UserCacheKey, UserStatus } from './constants';
 import { SuperCacheService } from '@libs/super-cache/super-cache.service';
-import { ModuleRef } from '@nestjs/core';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ExtendedInjectModel } from '@libs/super-core';
 import { ExtendedPagingDto } from 'src/pipes/page-result.dto.pipe';
 import { ExtendedModel } from '@libs/super-core/interfaces/extended-model.interface';
-import { RolesService } from '@libs/super-authorize/modules/roles/roles.service';
 import { AddFriendDto } from './dto/add-friend.dto,';
-import { Type } from 'class-transformer';
 
 @Injectable()
 export class UserService
@@ -120,7 +117,7 @@ export class UserService
     ) {
         const { _id: userId } = userPayload;
         const { password } = updateUserDto;
-
+        console.log(userId);
         const update = {
             ...updateUserDto,
             ...options,

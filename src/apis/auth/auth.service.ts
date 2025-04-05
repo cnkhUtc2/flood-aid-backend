@@ -3,15 +3,15 @@ import { UserPayload } from 'src/base/models/user-payload.model';
 import { JwtService } from '@nestjs/jwt';
 import { appSettings } from 'src/configs/app-settings';
 import { UserService } from '../users/user.service';
-import { UserLoginDto } from './dto/user-login.dto';
-import { Types } from 'mongoose';
 import { CreateUserDto } from '../users/dto/create-user.dto';
+import { ProfilesService } from '../profiles/profiles.service';
 
 @Injectable()
 export class AuthService {
     constructor(
         private readonly jwtService: JwtService,
         private readonly userService: UserService,
+        private readonly profileService: ProfilesService,
     ) {}
 
     async login(user: UserPayload) {
@@ -28,6 +28,10 @@ export class AuthService {
         }
 
         const newUser = await this.userService.createOne(dto, createdByUser);
+        const newProfile = await this.profileService.createOne(newUser._id);
+        newUser.profile = newProfile._id;
+        await newUser.save();
+
         return newUser;
     }
 
