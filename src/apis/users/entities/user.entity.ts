@@ -11,6 +11,7 @@ import {
     Role,
     RoleDocument,
 } from '@libs/super-authorize/modules/roles/entities/roles.entity';
+import { Profile } from 'src/apis/profiles/entities/profile.entity';
 
 export type UserDocument = HydratedDocument<User>;
 
@@ -118,6 +119,16 @@ export class User extends AggregateRoot {
         ref: COLLECTION_NAMES.USER,
     })
     friends: Types.ObjectId[];
+
+    @SuperProp({
+        type: Types.ObjectId,
+        ref: COLLECTION_NAMES.PROFILE,
+        refClass: Profile,
+    })
+    @AutoPopulate({
+        ref: COLLECTION_NAMES.PROFILE,
+    })
+    profile: Types.ObjectId;
 
     @SuperProp({
         type: Types.ObjectId,

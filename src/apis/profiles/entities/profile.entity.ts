@@ -54,7 +54,7 @@ export class Profile extends AggregateRoot {
     @AutoPopulate({
         ref: COLLECTION_NAMES.USER,
     })
-    user: Types.ObjectId;
+    createdBy: Types.ObjectId;
 }
 export type ProfileDocument = Profile & Document;
 export const ProfileSchema = SchemaFactory.createForClass(Profile);

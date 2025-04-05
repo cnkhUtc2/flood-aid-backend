@@ -18,6 +18,8 @@ import { ConversationModule } from 'src/apis/conversations/conversation.module';
 import { MessageModule } from 'src/apis/messages/message.module';
 import { TicketModule } from 'src/apis/tickets/ticket.module';
 import { SupportTicketController } from 'src/apis/tickets/controllers/ticket.controller';
+import { ProfilesModule } from 'src/apis/profiles/profiles.module';
+import { ProfilesController } from 'src/apis/profiles/controllers/profiles.controller';
 
 @Module({
     imports: [
@@ -31,6 +33,7 @@ import { SupportTicketController } from 'src/apis/tickets/controllers/ticket.con
         ConversationModule,
         MessageModule,
         TicketModule,
+        ProfilesModule,
     ],
     controllers: [
         UserController,
@@ -42,6 +45,7 @@ import { SupportTicketController } from 'src/apis/tickets/controllers/ticket.con
         ConversationController,
         MessageController,
         SupportTicketController,
+        ProfilesController,
     ],
     providers: [],
 })

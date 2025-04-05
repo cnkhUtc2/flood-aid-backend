@@ -120,7 +120,7 @@ export class UserService
     ) {
         const { _id: userId } = userPayload;
         const { password } = updateUserDto;
-
+        console.log(userId);
         const update = {
             ...updateUserDto,
             ...options,
