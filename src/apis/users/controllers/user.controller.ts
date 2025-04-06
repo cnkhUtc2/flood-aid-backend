@@ -23,6 +23,7 @@ import { ProfilesService } from 'src/apis/profiles/profiles.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { appSettings } from 'src/configs/app-settings';
 import { IUploadedMulterFile } from 'src/packages/s3/s3.service';
+import { UpdateUserDto } from '../dto/update-user.dto';
 
 @Controller('users')
 @Resource('users')
@@ -77,6 +78,22 @@ export class UserController {
         );
 
         return updatedProfile;
+    }
+
+    @SuperPut({ route: 'update-account/:id', dto: UpdateUserDto })
+    @SuperAuthorize(PERMISSION.PUT)
+    async updateAccount(
+        @Param('id') userId: string,
+        @Body() account: UpdateUserDto,
+        @Me() user: UserPayload,
+    ) {
+        const existingUser = await this.userService.updateOneById(
+            new Types.ObjectId(userId),
+            account,
+            user,
+        );
+
+        return existingUser;
     }
 
     @SuperPost({ route: 'upload-avatar' })
