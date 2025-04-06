@@ -12,6 +12,7 @@ import { appSettings } from './configs/app-settings';
 import { AuditsModule } from './packages/audits/audits.module';
 import { MultipleLanguageModule } from '@libs/super-multiple-language/multiple-language.module';
 import { SuperCacheModule } from '@libs/super-cache/super-cache.module';
+import { MailModule } from './apis/mail/mail.module';
 
 @Module({
     imports: [

@@ -10,6 +10,7 @@ import passport from 'passport';
 import { useContainer } from 'class-validator';
 import { appSettings } from './configs/app-settings';
 import compression from 'compression';
+import { Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule, {
@@ -80,6 +81,22 @@ async function bootstrap() {
             },
         });
     }
+
+    app.connectMicroservice({
+        name: 'MAIL_SERVICE',
+        transport: Transport.RMQ,
+        options: {
+            urls: [
+                'amqps://znosyikx:87QxPJZd1JZk93kVOSWxac1KPZfPgt1d@chameleon.lmq.cloudamqp.com/znosyikx',
+            ],
+            queue: 'email_queue',
+            queueOptions: {
+                durable: true,
+            },
+        },
+    });
+
+    await app.startAllMicroservices();
 
     await app.listen(appSettings.port);
 }

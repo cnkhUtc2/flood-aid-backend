@@ -1,12 +1,13 @@
 import { SuperApiProperty } from '@libs/super-core/decorators/super-api-property.decorator';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString, IsEnum, IsOptional } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateSupportTicketDto {
     @SuperApiProperty({
         type: String,
         required: true,
         title: 'Title',
-        description: 'Title of support ticket',
+        description: 'Title of the support ticket',
     })
     @IsNotEmpty()
     @IsString()
@@ -16,9 +17,60 @@ export class CreateSupportTicketDto {
         type: String,
         required: true,
         title: 'Purpose',
-        description: 'Purpose',
+        description: 'Purpose of the support ticket',
     })
     @IsNotEmpty()
     @IsString()
     purpose: string;
+
+    @SuperApiProperty({
+        type: String,
+        required: true,
+        title: 'Description',
+        description: 'Detailed description of the support ticket',
+    })
+    @IsNotEmpty()
+    @IsString()
+    description: string;
+
+    @SuperApiProperty({
+        type: String,
+        required: true,
+        title: 'Priority',
+        description: 'Priority level of the support ticket',
+        enum: ['low', 'medium', 'high'],
+    })
+    @IsNotEmpty()
+    @IsEnum(['low', 'medium', 'high'])
+    priority: string;
+
+    @SuperApiProperty({
+        type: String,
+        required: true,
+        title: 'Status',
+        description: 'Current status of the support ticket',
+        enum: ['open', 'in_progress', 'resolved'],
+    })
+    @IsNotEmpty()
+    @IsEnum(['open', 'in_progress', 'resolved'])
+    status: string;
+
+    @SuperApiProperty({
+        type: String,
+        required: false,
+        title: 'Location',
+        description: 'Location related to the support ticket',
+    })
+    @IsOptional()
+    @IsString()
+    location?: string;
+
+    // @SuperApiProperty({
+    //     type: [String],
+    //     required: false,
+    //     title: 'Attachments',
+    //     description: 'List of file attachments for the support ticket',
+    // })
+    // @IsOptional()
+    // attachments?: string[];
 }

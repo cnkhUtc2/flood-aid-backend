@@ -1,6 +1,5 @@
 import { SuperProp } from '@libs/super-core';
 import { AutoPopulate } from '@libs/super-search';
-import { Type } from '@nestjs/common';
 import { Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { User } from 'src/apis/users/entities/user.entity';
