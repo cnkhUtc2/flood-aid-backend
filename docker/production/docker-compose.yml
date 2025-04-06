@@ -1,48 +1,52 @@
 services:
-  # App
-  tongram-be-production-app:
-    container_name: tongram-be-production-app
-    image: hub.playgroundvina.com/pg/tongram-be:production
-    depends_on:
-      - tongram-be-production-db
-      - tongram-be-production-redis
-    ports:
-      - "3000:${PORT}"
-      - "${WEBSOCKET_PORT}:${WEBSOCKET_PORT}"
-    volumes:
-      - .env:/app/.env
-    networks:
-      - tongram-be-production-net
-  # Database
-  tongram-be-production-db:
-    image: mongo:7.0
-    container_name: tongram-be-production-db
-    restart: always
-    expose:
-      - 27017
-    ports:
-      - 37017:27017
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
-    volumes:
-      - tongram-be-production-volume-db:/data/db
-    networks:
-      - tongram-be-production-net
-  # Redis
-  tongram-be-production-redis:
-    image: redis:6
-    container_name: tongram-be-production-redis
-    restart: always
-    expose:
-      - 6379
-    networks:
-      - tongram-be-production-net
+    # App
+    tongram-be-production-app:
+        container_name: tongram-be-production-app
+        build:
+            context: ../../
+            dockerfile: docker/Dockerfile
+        depends_on:
+            - tongram-be-production-db
+            - tongram-be-production-redis
+        ports:
+            - '3000:3000'
+            - '3002:3002'
+        networks:
+            - tongram-be-production-net
+        env_file:
+            - ../../.env
+        environment:
+            DATABASE_URI: ${MONGO_URI}
+    # Database
+    tongram-be-production-db:
+        image: mongo:7.0
+        container_name: tongram-be-production-db
+        restart: always
+        expose:
+            - 27017
+        ports:
+            - 37017:27017
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: example
+        volumes:
+            - tongram-be-production-volume-db:/data/db
+        networks:
+            - tongram-be-production-net
+    # Redis
+    tongram-be-production-redis:
+        image: redis:6
+        container_name: tongram-be-production-redis
+        restart: always
+        expose:
+            - 6379
+        networks:
+            - tongram-be-production-net
 
 volumes:
-  tongram-be-production-volume-db:
-    name: tongram-be-production-db
+    tongram-be-production-volume-db:
+        name: tongram-be-production-db
 
 networks:
-  tongram-be-production-net:
-    name: tongram-be-production-net
+    tongram-be-production-net:
+        name: tongram-be-production-net
