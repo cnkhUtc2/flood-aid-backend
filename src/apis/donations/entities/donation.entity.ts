@@ -3,15 +3,14 @@ import { AutoPopulate } from '@libs/super-search';
 import { Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { User } from 'src/apis/users/entities/user.entity';
-import { AggregateRoot } from 'src/base/entities/aggregate-root.schema';
 import { COLLECTION_NAMES } from 'src/constants';
 import autopopulateSoftDelete from 'src/utils/mongoose-plugins/autopopulate-soft-delete';
 
 @Schema({
     timestamps: true,
-    collection: COLLECTION_NAMES.SUPPORT_TICKET,
+    collection: COLLECTION_NAMES.DONATION,
 })
-export class SupportTicket extends AggregateRoot {
+export class Donation {
     @SuperProp({
         type: String,
         required: true,
@@ -22,38 +21,26 @@ export class SupportTicket extends AggregateRoot {
         type: String,
         required: true,
     })
-    purpose: string;
-
-    @SuperProp({
-        type: String,
-        required: true,
-    })
     description: string;
 
     @SuperProp({
         type: String,
         required: true,
-        enum: ['low', 'medium', 'high'],
+        enum: ['FUND', 'CASE'],
     })
-    priority: string;
+    type: string;
 
     @SuperProp({
-        type: String,
+        type: Number,
         required: true,
-        enum: ['open', 'in_progress', 'resolved_accepted', 'resolved_declined'],
     })
-    status: string;
+    amount: number;
 
     @SuperProp({
-        type: String,
+        type: Date,
+        required: true,
     })
-    location: string;
-
-    // @SuperProp({
-    //     type: [String],
-    //     default: [],
-    // })
-    // attachments: string[];
+    donationDate: Date;
 
     @SuperProp({
         type: Types.ObjectId,
@@ -66,6 +53,6 @@ export class SupportTicket extends AggregateRoot {
     createdBy: Types.ObjectId;
 }
 
-export type SupportTicketDocument = SupportTicket & Document;
-export const SupportTicketSchema = SchemaFactory.createForClass(SupportTicket);
-SupportTicketSchema.plugin(autopopulateSoftDelete);
+export type DonationDocument = Donation & Document;
+export const DonationSchema = SchemaFactory.createForClass(Donation);
+DonationSchema.plugin(autopopulateSoftDelete);

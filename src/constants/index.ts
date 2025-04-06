@@ -23,8 +23,14 @@ export enum COLLECTION_NAMES {
     PAGE = 'pages',
     CONVERSATION = 'conversations',
     MESSAGE = 'message',
-    SUPPORT_TICKET = 'support_tickets',
+    SUPPORT_TICKET = 'support-tickets',
     PROFILE = 'profiles',
+    DONATION = 'donations',
+    CASE_DONATION = 'case-donations',
+    FUND_DONATION = 'fund-donations',
+    ORGANIZATION = 'organizations',
+    ORGANIZATION_FUND = 'organization-funds',
+    RELIEF_CASE = 'relief-cases',
 }
 
 export enum CountryCode {

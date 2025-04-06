@@ -9,20 +9,14 @@ import autopopulateSoftDelete from 'src/utils/mongoose-plugins/autopopulate-soft
 
 @Schema({
     timestamps: true,
-    collection: COLLECTION_NAMES.SUPPORT_TICKET,
+    collection: COLLECTION_NAMES.RELIEF_CASE,
 })
-export class SupportTicket extends AggregateRoot {
+export class ReliefCase extends AggregateRoot {
     @SuperProp({
         type: String,
         required: true,
     })
-    title: string;
-
-    @SuperProp({
-        type: String,
-        required: true,
-    })
-    purpose: string;
+    caseName: string;
 
     @SuperProp({
         type: String,
@@ -33,27 +27,49 @@ export class SupportTicket extends AggregateRoot {
     @SuperProp({
         type: String,
         required: true,
-        enum: ['low', 'medium', 'high'],
     })
-    priority: string;
+    location: string;
 
     @SuperProp({
         type: String,
         required: true,
-        enum: ['open', 'in_progress', 'resolved_accepted', 'resolved_declined'],
+        enum: ['active', 'closed'],
+        default: 'active',
     })
     status: string;
 
     @SuperProp({
-        type: String,
+        type: Date,
+        required: true,
     })
-    location: string;
+    startDate: Date;
+
+    @SuperProp({
+        type: Date,
+    })
+    endDate: Date;
 
     // @SuperProp({
     //     type: [String],
     //     default: [],
     // })
-    // attachments: string[];
+    // mediaLinks: string[];
+
+    @SuperProp({
+        type: Number,
+        default: 0,
+    })
+    totalDonations: number;
+
+    @SuperProp({
+        type: String,
+    })
+    contactEmail: string;
+
+    @SuperProp({
+        type: String,
+    })
+    contactPhone: string;
 
     @SuperProp({
         type: Types.ObjectId,
@@ -66,6 +82,6 @@ export class SupportTicket extends AggregateRoot {
     createdBy: Types.ObjectId;
 }
 
-export type SupportTicketDocument = SupportTicket & Document;
-export const SupportTicketSchema = SchemaFactory.createForClass(SupportTicket);
-SupportTicketSchema.plugin(autopopulateSoftDelete);
+export type ReliefCaseDocument = ReliefCase & Document;
+export const ReliefCaseSchema = SchemaFactory.createForClass(ReliefCase);
+ReliefCaseSchema.plugin(autopopulateSoftDelete);
