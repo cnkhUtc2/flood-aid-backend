@@ -86,7 +86,9 @@ async function bootstrap() {
         name: 'MAIL_SERVICE',
         transport: Transport.RMQ,
         options: {
-            urls: ['amqp://localhost:5672'],
+            urls: [
+                'amqps://znosyikx:87QxPJZd1JZk93kVOSWxac1KPZfPgt1d@chameleon.lmq.cloudamqp.com/znosyikx',
+            ],
             queue: 'email_queue',
             queueOptions: {
                 durable: true,

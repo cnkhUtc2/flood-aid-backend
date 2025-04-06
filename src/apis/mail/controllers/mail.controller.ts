@@ -8,7 +8,6 @@ export class MailController {
 
     @EventPattern('send_email')
     async handleSendEmail(data: any) {
-        console.log('here');
         return this.mailService.handleSendEmail(data);
     }
 }
