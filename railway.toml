@@ -1,0 +1,2 @@
+[build]
+dockerComposeFile = "docker/production/docker-compose.yml"
