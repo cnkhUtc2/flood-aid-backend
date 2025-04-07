@@ -1,5 +1,5 @@
 import { SuperApiProperty } from '@libs/super-core';
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreatePaymentDto {
     @SuperApiProperty({
@@ -11,4 +11,14 @@ export class CreatePaymentDto {
     @IsNotEmpty()
     @IsNumber()
     amount: number;
+
+    @SuperApiProperty({
+        type: String,
+        required: false,
+        title: 'Content',
+        description: 'Donor message',
+    })
+    @IsOptional()
+    @IsString()
+    message: string;
 }

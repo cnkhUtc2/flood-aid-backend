@@ -20,6 +20,11 @@ export const appSettings = {
         secretKey: process.env.STRIPE_SECRET_KEY,
         webhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
     },
+    donateUrl: {
+        donateSuccessUrl: process.env.DONATE_SUCCESS_URL,
+        donateFailUrl: process.env.DONATE_FAIL_URL,
+    },
+
     openIdConnect: {
         sessionSecret: process.env.SESSION_SECRET,
     },

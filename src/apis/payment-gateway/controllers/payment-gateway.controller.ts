@@ -2,9 +2,11 @@ import { Controller, HttpCode, Req, Res, Headers, Body } from '@nestjs/common';
 import { Request } from 'express';
 import { PaymentGatewayService } from '../payment-gateway.service';
 import { SuperPost } from '@libs/super-core';
-import { Resource } from '@libs/super-authorize';
+import { PERMISSION, Resource, SuperAuthorize } from '@libs/super-authorize';
 import { ApiTags } from '@nestjs/swagger';
 import { CreatePaymentDto } from '../dto/create-payment.dto';
+import { Me } from 'src/decorators/me.decorator';
+import { UserPayload } from 'src/base/models/user-payload.model';
 
 @Controller('stripe')
 @Resource('stripe')
@@ -15,8 +17,12 @@ export class PaymentGatewayController {
     ) {}
 
     @SuperPost({ route: 'checkout', dto: CreatePaymentDto })
-    async createCheckout(@Body() payment: CreatePaymentDto) {
-        return this.paymentGatewayService.createCheckoutSession(payment);
+    @SuperAuthorize(PERMISSION.POST)
+    async createCheckout(
+        @Body() payment: CreatePaymentDto,
+        @Me() user: UserPayload,
+    ) {
+        return this.paymentGatewayService.createCheckoutSession(payment, user);
     }
 
     @SuperPost({ route: 'webhook' })
@@ -26,7 +32,6 @@ export class PaymentGatewayController {
         @Res() response: import('express').Response,
         @Headers('stripe-signature') sig: string,
     ) {
-        console.log('here');
         try {
             const event = this.paymentGatewayService.verifyWebhook(
                 request['rawBody'],
