@@ -18,8 +18,11 @@ export class PaymentGatewayController {
 
     @SuperPost({ route: 'checkout', dto: CreatePaymentDto })
     @SuperAuthorize(PERMISSION.POST)
-    async createCheckout(@Body() payment: CreatePaymentDto) {
-        return this.paymentGatewayService.createCheckoutSession(payment);
+    async createCheckout(
+        @Body() payment: CreatePaymentDto,
+        @Me() user: UserPayload,
+    ) {
+        return this.paymentGatewayService.createCheckoutSession(payment, user);
     }
 
     @SuperPost({ route: 'webhook' })

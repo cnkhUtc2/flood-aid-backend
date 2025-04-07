@@ -22,7 +22,7 @@ export class Donation extends AggregateRoot {
         type: String,
         required: false,
     })
-    content: string;
+    message: string;
 
     @SuperProp({
         type: String,
@@ -52,13 +52,13 @@ export class Donation extends AggregateRoot {
 
     @SuperProp({
         type: Number,
-        required: true,
+        required: false,
     })
     cardLast4digits: number;
 
     @SuperProp({
         type: String,
-        required: true,
+        required: false,
     })
     paymentMethod: string;
 

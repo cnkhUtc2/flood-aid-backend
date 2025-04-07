@@ -23,7 +23,7 @@ export class CreateDonationDto {
     })
     @IsOptional()
     @IsString()
-    content: string;
+    message: string;
 
     @SuperApiProperty({
         type: String,
@@ -58,8 +58,9 @@ export class CreateDonationDto {
 
     @SuperApiProperty({
         type: String,
-        required: true,
+        required: false,
     })
+    @IsOptional()
     @IsString()
     paymentMethod: string;
 
@@ -72,8 +73,9 @@ export class CreateDonationDto {
 
     @SuperApiProperty({
         type: Number,
-        required: true,
+        required: false,
     })
+    @IsOptional()
     @IsString()
     cardLast4digits: number;
 }
