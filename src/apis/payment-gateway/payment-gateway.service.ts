@@ -2,9 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { appSettings } from 'src/configs/app-settings';
 import Stripe from 'stripe';
 import { CreatePaymentDto } from './dto/create-payment.dto';
+import { DonationsService } from '../donations/donations.service';
+import { UserPayload } from 'src/base/models/user-payload.model';
 
 @Injectable()
 export class PaymentGatewayService {
+    constructor(private readonly donationService: DonationsService) {}
     private stripe = new Stripe(appSettings.stripe.secretKey, {});
 
     async createCheckoutSession(payment: CreatePaymentDto) {
@@ -49,6 +52,20 @@ export class PaymentGatewayService {
             const paymentMethod = await this.stripe.paymentMethods.retrieve(
                 paymentIntent.payment_method as string,
             );
+
+            await this.donationService.createOne({
+                amount: Number(session.amount_total),
+                type: 'FUND',
+                title: '',
+                content: '',
+                items: [],
+                donorName: session.customer_details?.name ?? '',
+                cardLast4digits: paymentMethod.card?.last4
+                    ? Number(paymentMethod.card.last4)
+                    : 0,
+                paymentMethod: paymentMethod.card?.brand,
+                currency: session.currency,
+            });
 
             console.log('Payment complete:', {
                 brand: paymentMethod.card?.brand,
