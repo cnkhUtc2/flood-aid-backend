@@ -20,12 +20,6 @@ export class FundDonation {
         ref: COLLECTION_NAMES.DONATION,
     })
     donation: Types.ObjectId;
-
-    @SuperProp({
-        type: Date,
-        required: true,
-    })
-    donationDate: Date;
 }
 
 export type FundDonationDocument = FundDonation & Document;

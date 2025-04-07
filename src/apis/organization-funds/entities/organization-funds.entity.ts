@@ -14,7 +14,7 @@ export class OrganizationFunds {
         type: String,
         required: true,
     })
-    fundName: string;
+    name: string;
 
     @SuperProp({
         type: String,

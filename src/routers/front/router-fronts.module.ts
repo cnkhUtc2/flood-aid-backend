@@ -29,6 +29,8 @@ import { DonationsController } from 'src/apis/donations/controllers/donations.co
 import { OrganizationController } from 'src/apis/organizations/controllers/organization.controller';
 import { OrganizationFundsController } from 'src/apis/organization-funds/controllers/organization-funds.controller';
 import { ReliefCasesController } from 'src/apis/relief-cases/controllers/relief-cases.controller';
+import { StripeModule } from 'src/apis/stripe-payment-gateway/stripe.module';
+import { StripeController } from 'src/apis/stripe-payment-gateway/controllers/strip.controller';
 
 @Module({
     imports: [
@@ -48,6 +50,7 @@ import { ReliefCasesController } from 'src/apis/relief-cases/controllers/relief-
         OrganizationModule,
         OrganizationFundsModule,
         ReliefCasesModule,
+        StripeModule,
     ],
     controllers: [
         UserController,
@@ -64,6 +67,7 @@ import { ReliefCasesController } from 'src/apis/relief-cases/controllers/relief-
         OrganizationController,
         OrganizationFundsController,
         ReliefCasesController,
+        StripeController,
     ],
     providers: [],
 })

@@ -16,6 +16,10 @@ export const appSettings = {
         refreshExpireIn: process.env.JWT_REFRESH_EXPIRES_IN,
         issuer: process.env.JWT_ISSUER,
     },
+    stripe: {
+        secretKey: process.env.STRIPE_SECRET_KEY,
+        webhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
+    },
     openIdConnect: {
         sessionSecret: process.env.SESSION_SECRET,
     },

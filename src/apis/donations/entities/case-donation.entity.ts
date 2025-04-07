@@ -36,12 +36,6 @@ export class CaseDonation {
         default: [],
     })
     items: string[];
-
-    @SuperProp({
-        type: Date,
-        required: true,
-    })
-    donationDate: Date;
 }
 
 export type CaseDonationDocument = CaseDonation & Document;

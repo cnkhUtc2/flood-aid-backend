@@ -1,6 +1,5 @@
 import { SuperApiProperty } from '@libs/super-core/decorators/super-api-property.decorator';
 import { IsNotEmpty, IsString, IsEnum, IsOptional } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateSupportTicketDto {
     @SuperApiProperty({

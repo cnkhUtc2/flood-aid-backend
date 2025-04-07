@@ -12,11 +12,6 @@ import { appSettings } from './configs/app-settings';
 import { AuditsModule } from './packages/audits/audits.module';
 import { MultipleLanguageModule } from '@libs/super-multiple-language/multiple-language.module';
 import { SuperCacheModule } from '@libs/super-cache/super-cache.module';
-import { MailModule } from './apis/mail/mail.module';
-import { DonationsModule } from './apis/donations/donations.module';
-import { OrganizationFundsModule } from './apis/organization-funds/organization-funds.module';
-import { OrganizationModule } from './apis/organizations/organization.module';
-import { ReliefCasesModule } from './apis/relief-cases/relief-cases.module';
 
 @Module({
     imports: [

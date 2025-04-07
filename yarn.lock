@@ -2702,7 +2702,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/node@*", "@types/node@^22.5.5", "@types/node@>=10.0.0", "@types/node@22.5.5":
+"@types/node@*", "@types/node@^22.5.5", "@types/node@>=10.0.0", "@types/node@>=8.1.0", "@types/node@22.5.5":
   version "22.5.5"
   resolved "https://registry.npmjs.org/@types/node/-/node-22.5.5.tgz"
   integrity sha512-Xjs4y5UPO/CLdzpgR6GirZJx36yScjh73+2NlLlkFRSoQN8B0DpfXPdZGnvVmLRLOsqDpOfTNv7D9trgGhmOIA==
@@ -7974,6 +7974,14 @@ strip-json-comments@^3.1.1:
   version "3.1.1"
   resolved "https://registry.npmjs.org/strip-json-comments/-/strip-json-comments-3.1.1.tgz"
   integrity sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==
+
+stripe@^18.0.0:
+  version "18.0.0"
+  resolved "https://registry.npmjs.org/stripe/-/stripe-18.0.0.tgz"
+  integrity sha512-3Fs33IzKUby//9kCkCa1uRpinAoTvj6rJgQ2jrBEysoxEvfsclvXdna1amyEYbA2EKkjynuB4+L/kleCCaWTpA==
+  dependencies:
+    "@types/node" ">=8.1.0"
+    qs "^6.11.0"
 
 strnum@^1.0.5:
   version "1.0.5"

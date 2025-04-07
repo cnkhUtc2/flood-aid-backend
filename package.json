@@ -61,6 +61,7 @@
         "passport-local": "^1.0.0",
         "reflect-metadata": "^0.2.2",
         "rxjs": "^7.8.1",
+        "stripe": "^18.0.0",
         "super-nest-cli": "^1.0.1"
     },
     "devDependencies": {
