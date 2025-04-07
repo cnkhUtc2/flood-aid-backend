@@ -1,7 +1,10 @@
 import { SuperProp } from '@libs/super-core';
 import { AutoPopulate } from '@libs/super-search';
 import { Schema, SchemaFactory } from '@nestjs/mongoose';
+import { extend } from 'lodash';
 import { Document, Types } from 'mongoose';
+import { User } from 'src/apis/users/entities/user.entity';
+import { AggregateRoot } from 'src/base/entities/aggregate-root.schema';
 import { COLLECTION_NAMES } from 'src/constants';
 import autopopulateSoftDelete from 'src/utils/mongoose-plugins/autopopulate-soft-delete';
 
@@ -9,7 +12,7 @@ import autopopulateSoftDelete from 'src/utils/mongoose-plugins/autopopulate-soft
     timestamps: true,
     collection: COLLECTION_NAMES.ORGANIZATION_FUND,
 })
-export class OrganizationFunds {
+export class OrganizationFund extends AggregateRoot {
     @SuperProp({
         type: String,
         required: true,
@@ -18,24 +21,35 @@ export class OrganizationFunds {
 
     @SuperProp({
         type: String,
-        required: true,
+        required: false,
     })
     description: string;
 
     @SuperProp({
         type: Number,
-        required: true,
+        required: false,
     })
     goalAmount: number;
 
     @SuperProp({
         type: Number,
+        required: false,
         default: 0,
     })
     currentAmount: number;
+
+    @SuperProp({
+        type: Types.ObjectId,
+        ref: COLLECTION_NAMES.USER,
+        refClass: User,
+    })
+    @AutoPopulate({
+        ref: COLLECTION_NAMES.USER,
+    })
+    createdBy: Types.ObjectId;
 }
 
-export type OrganizationFundDocument = OrganizationFunds & Document;
+export type OrganizationFundDocument = OrganizationFund & Document;
 export const OrganizationFundSchema =
-    SchemaFactory.createForClass(OrganizationFunds);
+    SchemaFactory.createForClass(OrganizationFund);
 OrganizationFundSchema.plugin(autopopulateSoftDelete);

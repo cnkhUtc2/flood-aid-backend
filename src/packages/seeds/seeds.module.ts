@@ -4,9 +4,16 @@ import { UserModule } from 'src/apis/users/user.module';
 import { MetadataModule } from 'src/apis/metadata/metadata.module';
 import { RolesModule } from '@libs/super-authorize/modules/roles/roles.module';
 import { PermissionsModule } from '@libs/super-authorize/modules/permissions/permissions.module';
+import { OrganizationFundsModule } from 'src/apis/organization-funds/organization-funds.module';
 
 @Module({
-    imports: [RolesModule, UserModule, MetadataModule, PermissionsModule],
+    imports: [
+        RolesModule,
+        UserModule,
+        MetadataModule,
+        PermissionsModule,
+        OrganizationFundsModule,
+    ],
     controllers: [],
     providers: [SeedsService],
     exports: [SeedsService],

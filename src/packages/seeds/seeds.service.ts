@@ -7,6 +7,7 @@ import { MetadataService } from 'src/apis/metadata/metadata.service';
 import { RolesService } from '@libs/super-authorize/modules/roles/roles.service';
 import { PermissionsService } from '@libs/super-authorize/modules/permissions/permissions.service';
 import { RoleType } from '@libs/super-authorize/modules/roles/constants';
+import { OrganizationFundsService } from 'src/apis/organization-funds/organization-funds.service';
 
 @Injectable()
 export class SeedsService implements OnModuleInit {
@@ -16,6 +17,7 @@ export class SeedsService implements OnModuleInit {
         private readonly userService: UserService,
         private readonly permissionService: PermissionsService,
         private readonly metadataService: MetadataService,
+        private readonly organizationFundService: OrganizationFundsService,
     ) {}
 
     async onModuleInit() {
@@ -27,6 +29,8 @@ export class SeedsService implements OnModuleInit {
         await this.seedRoles();
         // await this.seedMetadata();
         await this.seedUsers();
+
+        await this.seedOrganizationFunds();
         this.logger.debug('Seeding completed');
     }
 
@@ -123,6 +127,35 @@ export class SeedsService implements OnModuleInit {
                     ...user,
                     _id: new Types.ObjectId(_id.$oid),
                     role: new Types.ObjectId(user.role.$oid),
+                });
+            }
+        }
+    }
+
+    async seedOrganizationFunds() {
+        const organizationFunds = JSON.parse(
+            fs.readFileSync(
+                process.cwd() + '/public/data/organization-fund.json',
+                'utf8',
+            ),
+        );
+
+        this.logger.debug('Seeding organization funds');
+
+        for (const fund of organizationFunds) {
+            const { _id } = fund;
+            delete fund.createdAt;
+            delete fund.updatedAt;
+            const exists = await this.organizationFundService.model
+                .findById(_id.$oid)
+                .exec();
+
+            if (!exists) {
+                await this.organizationFundService.model.create({
+                    ...fund,
+                    _id: new Types.ObjectId(_id.$oid),
+                    // createdBy: new Types.ObjectId(fund.createdBy.$oid),
+                    // updatedBy: new Types.ObjectId(fund.updatedBy.$oid),
                 });
             }
         }
