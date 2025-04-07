@@ -1,6 +1,6 @@
 import { Controller, HttpCode, Req, Res, Headers, Body } from '@nestjs/common';
 import { Request } from 'express';
-import { StripeService } from '../stripe.service';
+import { PaymentGatewayService } from '../payment-gateway.service';
 import { SuperPost } from '@libs/super-core';
 import { Resource } from '@libs/super-authorize';
 import { ApiTags } from '@nestjs/swagger';
@@ -9,12 +9,14 @@ import { CreatePaymentDto } from '../dto/create-payment.dto';
 @Controller('stripe')
 @Resource('stripe')
 @ApiTags('Front: Stripe')
-export class StripeController {
-    constructor(private readonly stripeService: StripeService) {}
+export class PaymentGatewayController {
+    constructor(
+        private readonly paymentGatewayService: PaymentGatewayService,
+    ) {}
 
     @SuperPost({ route: 'checkout', dto: CreatePaymentDto })
     async createCheckout(@Body() payment: CreatePaymentDto) {
-        return this.stripeService.createCheckoutSession(payment);
+        return this.paymentGatewayService.createCheckoutSession(payment);
     }
 
     @SuperPost({ route: 'webhook' })
@@ -26,11 +28,11 @@ export class StripeController {
     ) {
         console.log('here');
         try {
-            const event = this.stripeService.verifyWebhook(
+            const event = this.paymentGatewayService.verifyWebhook(
                 request['rawBody'],
                 sig,
             );
-            await this.stripeService.handleStripeEvent(event);
+            await this.paymentGatewayService.handleStripeEvent(event);
             return response.status(200).send('Event received');
         } catch (err) {
             console.error('Error processing webhook:', err);

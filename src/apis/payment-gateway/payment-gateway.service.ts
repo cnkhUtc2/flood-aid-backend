@@ -4,7 +4,7 @@ import Stripe from 'stripe';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 
 @Injectable()
-export class StripeService {
+export class PaymentGatewayService {
     private stripe = new Stripe(appSettings.stripe.secretKey, {});
 
     async createCheckoutSession(payment: CreatePaymentDto) {
@@ -24,8 +24,8 @@ export class StripeService {
                     quantity: 1,
                 },
             ],
-            success_url: 'http://localhost:5173/success',
-            cancel_url: 'http://localhost:5173/cancel',
+            success_url: 'http://localhost:5173/payment-success',
+            cancel_url: 'http://localhost:5173/payment-fail',
         });
 
         return { url: session.url! };
