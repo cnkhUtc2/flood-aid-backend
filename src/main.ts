@@ -104,9 +104,7 @@ async function bootstrap() {
         name: 'MAIL_SERVICE',
         transport: Transport.RMQ,
         options: {
-            urls: [
-                'amqps://znosyikx:87QxPJZd1JZk93kVOSWxac1KPZfPgt1d@chameleon.lmq.cloudamqp.com/znosyikx',
-            ],
+            urls: [appSettings.rabbitmq.url],
             queue: 'email_queue',
             queueOptions: {
                 durable: true,

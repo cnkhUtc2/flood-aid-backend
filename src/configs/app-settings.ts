@@ -35,6 +35,9 @@ export const appSettings = {
         folder: process.env.AWS_FOLDER_NAME_DEFAULT || 'marketplace',
         region: process.env.AWS_REGION,
     },
+    rabbitmq: {
+        url: process.env.RABBITMQ_URL,
+    },
     redis: {
         heathCheck: process.env.REDIS_HOST ? true : false,
         host: process.env.REDIS_HOST,
