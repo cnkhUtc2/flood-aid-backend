@@ -1,9 +1,5 @@
 import { SuperApiProperty } from '@libs/super-core/decorators/super-api-property.decorator';
-import { Transform } from 'class-transformer';
-import { IsOptional, IsString } from 'class-validator';
-import { IsExist } from 'src/common/services/is-exist-constraint.service';
-import { COLLECTION_NAMES } from 'src/constants';
-import { convertStringToObjectId } from 'src/utils/helper';
+import { IsString } from 'class-validator';
 
 export class CreateProfileDto {
     @SuperApiProperty({

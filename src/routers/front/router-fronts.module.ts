@@ -21,6 +21,16 @@ import { SupportTicketController } from 'src/apis/tickets/controllers/ticket.con
 import { ProfilesModule } from 'src/apis/profiles/profiles.module';
 import { ProfilesController } from 'src/apis/profiles/controllers/profiles.controller';
 import { MailModule } from 'src/apis/mail/mail.module';
+import { DonationsModule } from 'src/apis/donations/donations.module';
+import { OrganizationModule } from 'src/apis/organizations/organization.module';
+import { OrganizationFundsModule } from 'src/apis/organization-funds/organization-funds.module';
+import { ReliefCasesModule } from 'src/apis/relief-cases/relief-cases.module';
+import { DonationsController } from 'src/apis/donations/controllers/donations.controller';
+import { OrganizationController } from 'src/apis/organizations/controllers/organization.controller';
+import { OrganizationFundsController } from 'src/apis/organization-funds/controllers/organization-funds.controller';
+import { ReliefCasesController } from 'src/apis/relief-cases/controllers/relief-cases.controller';
+import { PaymentGatewayModule } from 'src/apis/payment-gateway/payment-gateway.module';
+import { PaymentGatewayController } from 'src/apis/payment-gateway/controllers/payment-gateway.controller';
 
 @Module({
     imports: [
@@ -36,6 +46,11 @@ import { MailModule } from 'src/apis/mail/mail.module';
         TicketModule,
         ProfilesModule,
         MailModule,
+        DonationsModule,
+        OrganizationModule,
+        OrganizationFundsModule,
+        ReliefCasesModule,
+        PaymentGatewayModule,
     ],
     controllers: [
         UserController,
@@ -48,6 +63,11 @@ import { MailModule } from 'src/apis/mail/mail.module';
         MessageController,
         SupportTicketController,
         ProfilesController,
+        DonationsController,
+        OrganizationController,
+        OrganizationFundsController,
+        ReliefCasesController,
+        PaymentGatewayController,
     ],
     providers: [],
 })

@@ -122,8 +122,11 @@ export class UserService
             ...updateUserDto,
             ...options,
             updatedBy: userId,
-            password: await this.hashPassword(password),
         };
+
+        if (password) {
+            update.password = await this.hashPassword(password);
+        }
 
         const user = await this.userModel.findOne({ _id }).exec();
 

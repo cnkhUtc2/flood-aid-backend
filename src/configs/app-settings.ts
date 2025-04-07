@@ -2,6 +2,7 @@ import 'dotenv/config';
 
 export const appSettings = {
     port: Number(process.env.PORT) || 3000,
+    socketPort: Number(process.env.WEBSOCKET_PORT),
     development: process.env.DEVELOPMENT,
     mainLanguage: process.env.MAIN_LANGUAGE || 'en',
     maxFileSize: {
@@ -14,6 +15,10 @@ export const appSettings = {
         refreshSecret: process.env.JWT_REFRESH_SECRET,
         refreshExpireIn: process.env.JWT_REFRESH_EXPIRES_IN,
         issuer: process.env.JWT_ISSUER,
+    },
+    stripe: {
+        secretKey: process.env.STRIPE_SECRET_KEY,
+        webhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
     },
     openIdConnect: {
         sessionSecret: process.env.SESSION_SECRET,
@@ -29,6 +34,9 @@ export const appSettings = {
         bucket: process.env.AWS_BUCKET_NAME,
         folder: process.env.AWS_FOLDER_NAME_DEFAULT || 'marketplace',
         region: process.env.AWS_REGION,
+    },
+    rabbitmq: {
+        url: process.env.RABBITMQ_URL,
     },
     redis: {
         heathCheck: process.env.REDIS_HOST ? true : false,

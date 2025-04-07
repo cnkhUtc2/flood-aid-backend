@@ -11,12 +11,30 @@ import { useContainer } from 'class-validator';
 import { appSettings } from './configs/app-settings';
 import compression from 'compression';
 import { Transport } from '@nestjs/microservices';
+import * as express from 'express';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule, {
         cors: true,
         abortOnError: true,
     });
+
+    app.use((req: any, res: any, buffer: Buffer, next: () => void) => {
+        if (buffer) {
+            req.rawBody = buffer;
+        }
+        next();
+    });
+
+    app.use(
+        express.json({
+            verify: (req: any, res, buf) => {
+                req.rawBody = buf;
+            },
+        }),
+    );
+
+    app.use('/stripe/webhook', express.raw({ type: 'application/json' }));
 
     app.use(
         compression({
@@ -86,9 +104,7 @@ async function bootstrap() {
         name: 'MAIL_SERVICE',
         transport: Transport.RMQ,
         options: {
-            urls: [
-                'amqps://znosyikx:87QxPJZd1JZk93kVOSWxac1KPZfPgt1d@chameleon.lmq.cloudamqp.com/znosyikx',
-            ],
+            urls: [appSettings.rabbitmq.url],
             queue: 'email_queue',
             queueOptions: {
                 durable: true,

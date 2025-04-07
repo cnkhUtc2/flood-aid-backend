@@ -7,7 +7,8 @@ import { SupportTicketDocument } from './entities/support-ticket.entity';
 import { UserPayload } from 'src/base/models/user-payload.model';
 import { COLLECTION_NAMES } from 'src/constants';
 import { BaseService } from 'src/base/service/base.service';
-import { htmlContent } from '../mail/html/content';
+import { htmlContent } from '../mail/html/support-ticket-notification';
+import { CreateSupportTicketDto } from './dto/create-support-ticket.dto';
 
 @Injectable()
 export class SupportTicketService extends BaseService<SupportTicketDocument> {
@@ -20,13 +21,13 @@ export class SupportTicketService extends BaseService<SupportTicketDocument> {
     }
 
     async createOne(
-        payload: any,
+        payload: CreateSupportTicketDto,
         user: UserPayload,
         options?: Record<string, any>,
     ) {
         const { _id: userId, email } = user;
 
-        const result = await this.model.create({
+        const result = await this.supportTicketModel.create({
             ...payload,
             ...options,
             createdBy: userId,
