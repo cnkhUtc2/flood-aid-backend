@@ -44,6 +44,7 @@ export class PaymentGatewayService {
             cancel_url: appSettings.donateUrl.donateFailUrl,
             metadata: {
                 message: payment.message || '',
+                type: payment.type,
             },
             // payment_intent_data: {
             //     transfer_data: {
@@ -51,9 +52,6 @@ export class PaymentGatewayService {
             //     },
             // },
         });
-
-        if (session.url === appSettings.donateUrl.donateFailUrl) {
-        }
 
         return { url: session.url! };
     }
@@ -88,7 +86,7 @@ export class PaymentGatewayService {
 
             await this.donationService.createOne({
                 amount: Number(session.amount_total),
-                type: 'FUND',
+                type: session.metadata?.type,
                 title: '',
                 message: session.metadata?.message ?? '',
                 items: [],

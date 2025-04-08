@@ -1,5 +1,11 @@
 import { SuperApiProperty } from '@libs/super-core';
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+    IsEnum,
+    IsNotEmpty,
+    IsNumber,
+    IsOptional,
+    IsString,
+} from 'class-validator';
 
 export class CreatePaymentDto {
     @SuperApiProperty({
@@ -21,6 +27,15 @@ export class CreatePaymentDto {
     @IsOptional()
     @IsString()
     message: string;
+
+    @SuperApiProperty({
+        type: String,
+        required: true,
+        title: 'Type',
+        description: 'Type of donation',
+    })
+    @IsEnum(['FUND', 'CASE'])
+    type: string;
 
     @SuperApiProperty({
         type: String,
