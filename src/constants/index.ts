@@ -32,6 +32,7 @@ export enum COLLECTION_NAMES {
     ORGANIZATION_FUND = 'organization-funds',
     RELIEF_CASE = 'relief-cases',
     DONOR = 'donors',
+    RECIPIENT = 'recipients',
 }
 
 export enum CountryCode {

@@ -21,4 +21,12 @@ export class CreatePaymentDto {
     @IsOptional()
     @IsString()
     message: string;
+
+    @SuperApiProperty({
+        type: String,
+        required: false,
+    })
+    @IsOptional()
+    @IsString()
+    receiverId: string;
 }

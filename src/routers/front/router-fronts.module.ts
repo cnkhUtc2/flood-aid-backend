@@ -31,6 +31,8 @@ import { OrganizationFundsController } from 'src/apis/organization-funds/control
 import { ReliefCasesController } from 'src/apis/relief-cases/controllers/relief-cases.controller';
 import { PaymentGatewayModule } from 'src/apis/payment-gateway/payment-gateway.module';
 import { PaymentGatewayController } from 'src/apis/payment-gateway/controllers/payment-gateway.controller';
+import { RecipientsModule } from 'src/apis/recipients/recipients.module';
+import { RecipientsController } from 'src/apis/recipients/controllers/recipients.controller';
 
 @Module({
     imports: [
@@ -51,6 +53,7 @@ import { PaymentGatewayController } from 'src/apis/payment-gateway/controllers/p
         OrganizationFundsModule,
         ReliefCasesModule,
         PaymentGatewayModule,
+        RecipientsModule,
     ],
     controllers: [
         UserController,
@@ -68,6 +71,7 @@ import { PaymentGatewayController } from 'src/apis/payment-gateway/controllers/p
         OrganizationFundsController,
         ReliefCasesController,
         PaymentGatewayController,
+        RecipientsController,
     ],
     providers: [],
 })
