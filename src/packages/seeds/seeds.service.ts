@@ -8,6 +8,7 @@ import { RolesService } from '@libs/super-authorize/modules/roles/roles.service'
 import { PermissionsService } from '@libs/super-authorize/modules/permissions/permissions.service';
 import { RoleType } from '@libs/super-authorize/modules/roles/constants';
 import { OrganizationFundsService } from 'src/apis/organization-funds/organization-funds.service';
+import { CategoriesService } from 'src/apis/categories/categories.service';
 
 @Injectable()
 export class SeedsService implements OnModuleInit {
@@ -18,6 +19,7 @@ export class SeedsService implements OnModuleInit {
         private readonly permissionService: PermissionsService,
         private readonly metadataService: MetadataService,
         private readonly organizationFundService: OrganizationFundsService,
+        private readonly categoriesService: CategoriesService,
     ) {}
 
     async onModuleInit() {
@@ -31,6 +33,7 @@ export class SeedsService implements OnModuleInit {
         await this.seedUsers();
 
         await this.seedOrganizationFunds();
+        await this.seedCategories();
         this.logger.debug('Seeding completed');
     }
 
@@ -156,6 +159,34 @@ export class SeedsService implements OnModuleInit {
                     _id: new Types.ObjectId(_id.$oid),
                     // createdBy: new Types.ObjectId(fund.createdBy.$oid),
                     // updatedBy: new Types.ObjectId(fund.updatedBy.$oid),
+                });
+            }
+        }
+    }
+
+    async seedCategories() {
+        const categories = JSON.parse(
+            fs.readFileSync(
+                process.cwd() + '/public/data/categories.json',
+                'utf8',
+            ),
+        );
+
+        this.logger.debug('Seeding categories');
+
+        for (const category of categories) {
+            const { _id } = category;
+            delete category.createdAt;
+            delete category.updatedAt;
+
+            const exists = await this.categoriesService.model
+                .findById(_id.$oid)
+                .exec();
+
+            if (!exists) {
+                await this.categoriesService.model.create({
+                    ...category,
+                    _id: new Types.ObjectId(_id.$oid),
                 });
             }
         }

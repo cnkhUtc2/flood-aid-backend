@@ -26,12 +26,15 @@ export enum COLLECTION_NAMES {
     SUPPORT_TICKET = 'support-tickets',
     PROFILE = 'profiles',
     DONATION = 'donations',
+    DONATION_ITEM = 'donation-items',
     CASE_DONATION = 'case-donations',
     FUND_DONATION = 'fund-donations',
     ORGANIZATION = 'organizations',
     ORGANIZATION_FUND = 'organization-funds',
     RELIEF_CASE = 'relief-cases',
     DONOR = 'donors',
+    RECIPIENT = 'recipients',
+    ITEM = 'items',
 }
 
 export enum CountryCode {

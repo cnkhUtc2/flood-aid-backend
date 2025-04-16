@@ -5,17 +5,24 @@ import { CreatePaymentDto } from './dto/create-payment.dto';
 import { DonationsService } from '../donations/donations.service';
 import { ClientProxy } from '@nestjs/microservices';
 import { UserPayload } from 'src/base/models/user-payload.model';
-import { htmlContent } from '../mail/html/donate-success-norification';
+import { htmlContent } from '../mail/html/donate-success-notification';
+import { RecipientsService } from '../recipients/recipients.service';
+import { AccountDto } from './dto/account.dto';
 
 @Injectable()
 export class PaymentGatewayService {
     constructor(
         private readonly donationService: DonationsService,
+        private readonly recipientService: RecipientsService,
         @Inject('MAIL_SERVICE') private readonly client: ClientProxy,
     ) {}
     private stripe = new Stripe(appSettings.stripe.secretKey, {});
 
     async createCheckoutSession(payment: CreatePaymentDto, user: UserPayload) {
+        const recipient = await this.recipientService.getOne({
+            stripeAccountId: payment.receiverId,
+        });
+
         const session = await this.stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             mode: 'payment',
@@ -37,11 +44,14 @@ export class PaymentGatewayService {
             cancel_url: appSettings.donateUrl.donateFailUrl,
             metadata: {
                 message: payment.message || '',
+                type: payment.type,
             },
+            // payment_intent_data: {
+            //     transfer_data: {
+            //         destination: recipient.stripeAccountId,
+            //     },
+            // },
         });
-
-        if (session.url === appSettings.donateUrl.donateFailUrl) {
-        }
 
         return { url: session.url! };
     }
@@ -76,7 +86,7 @@ export class PaymentGatewayService {
 
             await this.donationService.createOne({
                 amount: Number(session.amount_total),
-                type: 'FUND',
+                type: session.metadata?.type,
                 title: '',
                 message: session.metadata?.message ?? '',
                 items: [],
@@ -91,6 +101,42 @@ export class PaymentGatewayService {
             console.log('Payment complete:', {
                 brand: paymentMethod.card?.brand,
                 last4: paymentMethod.card?.last4,
+            });
+        }
+    }
+
+    async createConnectedAccount(user: UserPayload) {
+        const existing = await this.recipientService.getOne({
+            email: user.email,
+        });
+        if (existing) {
+            return { accountId: existing.stripeAccountId };
+        }
+
+        const account = await this.stripe.accounts.create({
+            type: 'express',
+            email: user.email,
+            capabilities: {
+                transfers: { requested: true },
+            },
+        });
+
+        const accountLink = await this.stripe.accountLinks.create({
+            account: account.id,
+            refresh_url: `http://localhost:3000/stripe/reauth`,
+            return_url: `http://localhost:3000/stripe/onboard-success?accountId=${account.id}`,
+            type: 'account_onboarding',
+        });
+
+        return { accountId: account.id, url: accountLink.url };
+    }
+
+    async confirmStripeAccount(dto: AccountDto) {
+        const account = await this.stripe.accounts.retrieve(dto.accountId);
+        if (account.charges_enabled) {
+            await this.recipientService.createOne({
+                email: account.email,
+                stripeAccountId: account.id,
             });
         }
     }

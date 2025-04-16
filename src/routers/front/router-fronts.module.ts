@@ -31,6 +31,10 @@ import { OrganizationFundsController } from 'src/apis/organization-funds/control
 import { ReliefCasesController } from 'src/apis/relief-cases/controllers/relief-cases.controller';
 import { PaymentGatewayModule } from 'src/apis/payment-gateway/payment-gateway.module';
 import { PaymentGatewayController } from 'src/apis/payment-gateway/controllers/payment-gateway.controller';
+import { RecipientsModule } from 'src/apis/recipients/recipients.module';
+import { RecipientsController } from 'src/apis/recipients/controllers/recipients.controller';
+import { DonationItemsModule } from 'src/apis/donation-items/donation-items.module';
+import { DonationItemsController } from 'src/apis/donation-items/controllers/donation-items.controller';
 
 @Module({
     imports: [
@@ -47,10 +51,12 @@ import { PaymentGatewayController } from 'src/apis/payment-gateway/controllers/p
         ProfilesModule,
         MailModule,
         DonationsModule,
+        DonationItemsModule,
         OrganizationModule,
         OrganizationFundsModule,
         ReliefCasesModule,
         PaymentGatewayModule,
+        RecipientsModule,
     ],
     controllers: [
         UserController,
@@ -64,10 +70,12 @@ import { PaymentGatewayController } from 'src/apis/payment-gateway/controllers/p
         SupportTicketController,
         ProfilesController,
         DonationsController,
+        DonationItemsController,
         OrganizationController,
         OrganizationFundsController,
         ReliefCasesController,
         PaymentGatewayController,
+        RecipientsController,
     ],
     providers: [],
 })
