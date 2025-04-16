@@ -2,6 +2,7 @@ import { SuperProp } from '@libs/super-core';
 import { AutoPopulate } from '@libs/super-search';
 import { Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
+import { Category } from 'src/apis/categories/entities/categories.entity';
 import { User } from 'src/apis/users/entities/user.entity';
 import { AggregateRoot } from 'src/base/entities/aggregate-root.schema';
 import { COLLECTION_NAMES } from 'src/constants';
@@ -9,57 +10,36 @@ import autopopulateSoftDelete from 'src/utils/mongoose-plugins/autopopulate-soft
 
 @Schema({
     timestamps: true,
-    collection: COLLECTION_NAMES.DONATION,
+    collection: COLLECTION_NAMES.ITEM,
 })
-export class Donation extends AggregateRoot {
-    @SuperProp({
-        type: String,
-        required: false,
-    })
-    title: string;
-
-    @SuperProp({
-        type: String,
-        required: false,
-    })
-    message: string;
-
+export class Item extends AggregateRoot {
     @SuperProp({
         type: String,
         required: true,
-        enum: ['FUND', 'CASE'],
     })
-    type: string;
+    name: string;
 
     @SuperProp({
         type: Number,
         required: true,
     })
-    amount: number;
+    number: number;
 
     @SuperProp({
-        type: String,
-        required: true,
+        type: [Types.ObjectId],
+        ref: COLLECTION_NAMES.CATEGORIES,
+        refClass: Category,
+        cms: {
+            label: 'Categories',
+            tableShow: true,
+            columnPosition: 6,
+        },
     })
-    donorName: string;
-
-    @SuperProp({
-        type: Number,
-        required: false,
+    @AutoPopulate({
+        ref: COLLECTION_NAMES.CATEGORIES,
+        isArray: true,
     })
-    cardLast4digits: number;
-
-    @SuperProp({
-        type: String,
-        required: false,
-    })
-    paymentMethod: string;
-
-    @SuperProp({
-        type: String,
-        required: true,
-    })
-    currency: string;
+    categories: Category[];
 
     @SuperProp({
         type: Types.ObjectId,
@@ -72,6 +52,6 @@ export class Donation extends AggregateRoot {
     createdBy: Types.ObjectId;
 }
 
-export type DonationDocument = Donation & Document;
-export const DonationSchema = SchemaFactory.createForClass(Donation);
-DonationSchema.plugin(autopopulateSoftDelete);
+export type ItemDocument = Item & Document;
+export const ItemSchema = SchemaFactory.createForClass(Item);
+ItemSchema.plugin(autopopulateSoftDelete);

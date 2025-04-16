@@ -1,0 +1,51 @@
+[
+    {
+        "_id": { "$oid": "668a10000000000000000001" },
+        "name": { "en": "Clothing" },
+        "slug": "clothing",
+        "type": "items",
+        "position": 1
+    },
+    {
+        "_id": { "$oid": "668a10000000000000000002" },
+        "name": { "en": "Food & Water" },
+        "slug": "food-water",
+        "type": "items",
+        "position": 2
+    },
+    {
+        "_id": { "$oid": "668a10000000000000000003" },
+        "name": { "en": "Hygiene & Sanitation" },
+        "slug": "hygiene-sanitation",
+        "type": "items",
+        "position": 3
+    },
+    {
+        "_id": { "$oid": "668a10000000000000000004" },
+        "name": { "en": "Medical Supplies" },
+        "slug": "medical-supplies",
+        "type": "items",
+        "position": 4
+    },
+    {
+        "_id": { "$oid": "668a10000000000000000005" },
+        "name": { "en": "Utilities & Tools" },
+        "slug": "utilities-tools",
+        "type": "items",
+        "position": 5
+    },
+    {
+        "_id": { "$oid": "668a10000000000000000006" },
+        "name": { "en": "Temporary Shelter" },
+        "slug": "temporary-shelter",
+        "type": "items",
+        "position": 6
+    },
+    {
+        "_id": { "$oid": "668a10000000000000000007" },
+        "name": { "en": "Children & Education" },
+        "slug": "children-education",
+        "type": "items",
+        "position": 7
+    }
+]

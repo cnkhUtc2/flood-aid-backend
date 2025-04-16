@@ -5,7 +5,7 @@ import { CreatePaymentDto } from './dto/create-payment.dto';
 import { DonationsService } from '../donations/donations.service';
 import { ClientProxy } from '@nestjs/microservices';
 import { UserPayload } from 'src/base/models/user-payload.model';
-import { htmlContent } from '../mail/html/donate-success-norification';
+import { htmlContent } from '../mail/html/donate-success-notification';
 import { RecipientsService } from '../recipients/recipients.service';
 import { AccountDto } from './dto/account.dto';
 

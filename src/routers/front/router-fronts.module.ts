@@ -33,6 +33,8 @@ import { PaymentGatewayModule } from 'src/apis/payment-gateway/payment-gateway.m
 import { PaymentGatewayController } from 'src/apis/payment-gateway/controllers/payment-gateway.controller';
 import { RecipientsModule } from 'src/apis/recipients/recipients.module';
 import { RecipientsController } from 'src/apis/recipients/controllers/recipients.controller';
+import { DonationItemsModule } from 'src/apis/donation-items/donation-items.module';
+import { DonationItemsController } from 'src/apis/donation-items/controllers/donation-items.controller';
 
 @Module({
     imports: [
@@ -49,6 +51,7 @@ import { RecipientsController } from 'src/apis/recipients/controllers/recipients
         ProfilesModule,
         MailModule,
         DonationsModule,
+        DonationItemsModule,
         OrganizationModule,
         OrganizationFundsModule,
         ReliefCasesModule,
@@ -67,6 +70,7 @@ import { RecipientsController } from 'src/apis/recipients/controllers/recipients
         SupportTicketController,
         ProfilesController,
         DonationsController,
+        DonationItemsController,
         OrganizationController,
         OrganizationFundsController,
         ReliefCasesController,

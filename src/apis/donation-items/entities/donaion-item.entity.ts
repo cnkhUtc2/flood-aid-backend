@@ -6,12 +6,13 @@ import { User } from 'src/apis/users/entities/user.entity';
 import { AggregateRoot } from 'src/base/entities/aggregate-root.schema';
 import { COLLECTION_NAMES } from 'src/constants';
 import autopopulateSoftDelete from 'src/utils/mongoose-plugins/autopopulate-soft-delete';
+import { Item } from './item.entity';
 
 @Schema({
     timestamps: true,
-    collection: COLLECTION_NAMES.DONATION,
+    collection: COLLECTION_NAMES.DONATION_ITEM,
 })
-export class Donation extends AggregateRoot {
+export class DonationItem extends AggregateRoot {
     @SuperProp({
         type: String,
         required: false,
@@ -28,38 +29,36 @@ export class Donation extends AggregateRoot {
         type: String,
         required: true,
         enum: ['FUND', 'CASE'],
+        default: 'FUND',
     })
     type: string;
 
     @SuperProp({
-        type: Number,
-        required: true,
+        type: [Types.ObjectId],
+        ref: COLLECTION_NAMES.ITEM,
+        refClass: Item,
+        default: [],
+        required: false,
     })
-    amount: number;
+    @AutoPopulate({
+        ref: COLLECTION_NAMES.ITEM,
+        isArray: true,
+    })
+    items: Item[];
+
+    @SuperProp({
+        type: String,
+        required: true,
+        enum: ['open', 'accepted', 'declined'],
+        default: 'open',
+    })
+    status: string;
 
     @SuperProp({
         type: String,
         required: true,
     })
     donorName: string;
-
-    @SuperProp({
-        type: Number,
-        required: false,
-    })
-    cardLast4digits: number;
-
-    @SuperProp({
-        type: String,
-        required: false,
-    })
-    paymentMethod: string;
-
-    @SuperProp({
-        type: String,
-        required: true,
-    })
-    currency: string;
 
     @SuperProp({
         type: Types.ObjectId,
@@ -72,6 +71,6 @@ export class Donation extends AggregateRoot {
     createdBy: Types.ObjectId;
 }
 
-export type DonationDocument = Donation & Document;
-export const DonationSchema = SchemaFactory.createForClass(Donation);
-DonationSchema.plugin(autopopulateSoftDelete);
+export type DonationItemDocument = DonationItem & Document;
+export const DonationItemSchema = SchemaFactory.createForClass(DonationItem);
+DonationItemSchema.plugin(autopopulateSoftDelete);

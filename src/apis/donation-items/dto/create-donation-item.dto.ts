@@ -1,14 +1,8 @@
 import { SuperApiProperty } from '@libs/super-core/decorators/super-api-property.decorator';
-import {
-    IsNotEmpty,
-    IsString,
-    IsEnum,
-    IsNumber,
-    IsOptional,
-} from 'class-validator';
-import { CreateItemDto } from '../../donation-items/dto/create-item.dto';
+import { IsNotEmpty, IsString, IsEnum, IsOptional } from 'class-validator';
+import { CreateItemDto } from './create-item.dto';
 
-export class CreateDonationDto {
+export class CreateDonationItemDto {
     @SuperApiProperty({
         type: String,
         required: false,
@@ -29,17 +23,19 @@ export class CreateDonationDto {
         type: String,
         required: false,
         enum: ['FUND', 'CASE'],
+        default: 'CASE',
     })
     @IsNotEmpty()
     @IsEnum(['FUND', 'CASE'])
     type: string;
 
     @SuperApiProperty({
-        type: Number,
-        required: true,
+        type: String,
+        enum: ['open', 'accepted', 'declined'],
+        default: 'open',
     })
-    @IsNumber()
-    amount: number;
+    @IsEnum(['open', 'accepted', 'declined'])
+    status: string;
 
     @SuperApiProperty({
         type: [CreateItemDto],
@@ -53,27 +49,4 @@ export class CreateDonationDto {
     })
     @IsString()
     donorName: string;
-
-    @SuperApiProperty({
-        type: String,
-        required: false,
-    })
-    @IsOptional()
-    @IsString()
-    paymentMethod: string;
-
-    @SuperApiProperty({
-        type: String,
-        required: true,
-    })
-    @IsString()
-    currency: string;
-
-    @SuperApiProperty({
-        type: Number,
-        required: false,
-    })
-    @IsOptional()
-    @IsString()
-    cardLast4digits: number;
 }

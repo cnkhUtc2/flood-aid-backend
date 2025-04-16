@@ -26,6 +26,7 @@ export enum COLLECTION_NAMES {
     SUPPORT_TICKET = 'support-tickets',
     PROFILE = 'profiles',
     DONATION = 'donations',
+    DONATION_ITEM = 'donation-items',
     CASE_DONATION = 'case-donations',
     FUND_DONATION = 'fund-donations',
     ORGANIZATION = 'organizations',
@@ -33,6 +34,7 @@ export enum COLLECTION_NAMES {
     RELIEF_CASE = 'relief-cases',
     DONOR = 'donors',
     RECIPIENT = 'recipients',
+    ITEM = 'items',
 }
 
 export enum CountryCode {
