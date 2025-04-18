@@ -18,12 +18,65 @@ export class CreateItemDto {
     name: string;
 
     @SuperApiProperty({
+        type: String,
+        required: true,
+    })
+    @IsNotEmpty()
+    @IsString()
+    code: string;
+
+    @SuperApiProperty({
+        type: Number,
+        required: true,
+        default: 1,
+    })
+    @IsNotEmpty()
+    @IsNumber()
+    quantity: number;
+
+    @SuperApiProperty({
         type: Number,
         required: true,
     })
     @IsNotEmpty()
     @IsNumber()
-    number: number;
+    price: number;
+
+    @SuperApiProperty({
+        type: Number,
+        required: true,
+        default: 10,
+    })
+    @IsNotEmpty()
+    @IsNumber()
+    length: number;
+
+    @SuperApiProperty({
+        type: Number,
+        required: true,
+        default: 10,
+    })
+    @IsNotEmpty()
+    @IsNumber()
+    width: number;
+
+    @SuperApiProperty({
+        type: Number,
+        required: true,
+        default: 10,
+    })
+    @IsNotEmpty()
+    @IsNumber()
+    height: number;
+
+    @SuperApiProperty({
+        type: Number,
+        required: true,
+        default: 10,
+    })
+    @IsNotEmpty()
+    @IsNumber()
+    weight: number;
 
     @SuperApiProperty({
         type: [String],

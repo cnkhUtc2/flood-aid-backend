@@ -2,8 +2,7 @@ import { Body, Controller, Param, Query } from '@nestjs/common';
 import { DonationItemsService } from '../donation-items.service';
 import { PERMISSION, Resource, SuperAuthorize } from '@libs/super-authorize';
 import { ApiTags } from '@nestjs/swagger';
-import { SuperGet, SuperPost, SuperPut } from '@libs/super-core';
-import { CreateDonationItemDto } from '../dto/create-donation-item.dto';
+import { SuperGet, SuperPut } from '@libs/super-core';
 import {
     ExtendedPagingDto,
     PagingDtoPipe,
@@ -15,11 +14,11 @@ import { UserPayload } from 'src/base/models/user-payload.model';
 
 @Controller('donation-items')
 @Resource('donation-items')
-@ApiTags('Front: Donation Items')
-export class DonationItemsController {
+@ApiTags('Admin: Donation Items')
+export class DonationItemsControllerAdmin {
     constructor(private readonly donationItemsService: DonationItemsService) {}
 
-    @SuperGet({ route: '/' })
+    @SuperGet()
     @SuperAuthorize(PERMISSION.GET)
     async getAll(
         @Query(new PagingDtoPipe())
@@ -41,18 +40,5 @@ export class DonationItemsController {
             donationItem,
             user,
         );
-    }
-
-    @SuperPost({ route: 'create', dto: CreateDonationItemDto })
-    @SuperAuthorize(PERMISSION.POST)
-    async createOne(
-        @Body() donationItem: CreateDonationItemDto,
-        @Me() user: UserPayload,
-    ) {
-        const result = await this.donationItemsService.createOne(
-            donationItem,
-            user,
-        );
-        return result;
     }
 }

@@ -13,6 +13,8 @@ import { PostsControllerAdmin } from 'src/apis/posts/controllers/posts.controlle
 import { PostsModule } from 'src/apis/posts/posts.module';
 import { UserModule } from 'src/apis/users/user.module';
 import { CommonModule } from 'src/common/common.module';
+import { DonationItemsControllerAdmin } from 'src/apis/donation-items/controllers/donation-items.controller.admin';
+import { DonationItemsModule } from 'src/apis/donation-items/donation-items.module';
 
 @Module({
     imports: [
@@ -24,6 +26,7 @@ import { CommonModule } from 'src/common/common.module';
         CategoriesModule,
         PostsModule,
         MetadataModule,
+        DonationItemsModule,
     ],
     controllers: [
         MediaControllerAdmin,
@@ -32,6 +35,7 @@ import { CommonModule } from 'src/common/common.module';
         PostsControllerAdmin,
         MetadataControllerAdmin,
         UserControllerAdmin,
+        DonationItemsControllerAdmin,
     ],
     providers: [],
 })

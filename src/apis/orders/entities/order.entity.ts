@@ -2,7 +2,7 @@ import { SuperProp } from '@libs/super-core';
 import { AutoPopulate } from '@libs/super-search';
 import { Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
-import { Category } from 'src/apis/categories/entities/categories.entity';
+import { DonationItem } from 'src/apis/donation-items/entities/donaion-item.entity';
 import { User } from 'src/apis/users/entities/user.entity';
 import { AggregateRoot } from 'src/base/entities/aggregate-root.schema';
 import { COLLECTION_NAMES } from 'src/constants';
@@ -10,72 +10,70 @@ import autopopulateSoftDelete from 'src/utils/mongoose-plugins/autopopulate-soft
 
 @Schema({
     timestamps: true,
-    collection: COLLECTION_NAMES.ITEM,
+    collection: COLLECTION_NAMES.ORDER,
 })
-export class Item extends AggregateRoot {
+export class Order extends AggregateRoot {
     @SuperProp({
         type: String,
-        required: true,
     })
-    name: string;
+    orderCode: string;
 
     @SuperProp({
         type: String,
-        required: true,
+        enum: ['PENDING', 'SHIPPING', 'DELIVERED', 'FAIL'],
     })
-    code: string;
+    status: string;
+
+    @SuperProp({
+        type: String,
+        default: 'GHN',
+    })
+    deliveryPartner: string;
+
+    @SuperProp({
+        type: String,
+    })
+    trackingUrl?: string;
+
+    @SuperProp({
+        type: String,
+    })
+    expectDeliveryTime?: string;
+
+    @SuperProp({
+        type: String,
+    })
+    transType?: string;
+
+    @SuperProp({
+        type: String,
+    })
+    fromAddress: string;
+
+    @SuperProp({
+        type: String,
+    })
+    toAddress: string;
 
     @SuperProp({
         type: Number,
-        required: true,
     })
-    quantity: number;
+    totalFee?: number; //shipping fee
 
     @SuperProp({
         type: Number,
-        required: true,
     })
-    price: number;
+    weight?: number;
 
     @SuperProp({
-        type: Number,
-        required: true,
-    })
-    length: number;
-
-    @SuperProp({
-        type: Number,
-        required: true,
-    })
-    width: number;
-
-    @SuperProp({
-        type: Number,
-        required: true,
-    })
-    height: number;
-
-    @SuperProp({
-        type: Number,
-        required: true,
-    })
-    weight: number;
-
-    @SuperProp({
-        type: [Types.ObjectId],
-        ref: COLLECTION_NAMES.CATEGORIES,
-        refClass: Category,
-        cms: {
-            label: 'Categories',
-            tableShow: true,
-            columnPosition: 6,
-        },
+        type: Types.ObjectId,
+        ref: COLLECTION_NAMES.DONATION_ITEM,
+        refClass: DonationItem,
     })
     @AutoPopulate({
-        ref: COLLECTION_NAMES.CATEGORIES,
-        isArray: true,
+        ref: COLLECTION_NAMES.DONATION_ITEM,
     })
-    categories: Category[];
+    donationItem: Types.ObjectId;
 
     @SuperProp({
         type: Types.ObjectId,
@@ -88,6 +86,6 @@ export class Item extends AggregateRoot {
     createdBy: Types.ObjectId;
 }
 
-export type ItemDocument = Item & Document;
-export const ItemSchema = SchemaFactory.createForClass(Item);
-ItemSchema.plugin(autopopulateSoftDelete);
+export type OrderDocument = Order & Document;
+export const OrderSchema = SchemaFactory.createForClass(Order);
+OrderSchema.plugin(autopopulateSoftDelete);

@@ -54,4 +54,9 @@ export const appSettings = {
         email: process.env.EMAIL,
         appPass: process.env.APP_PASSWORD,
     },
+    transport: {
+        ghnApi: process.env.GHN_TRANSPORT_API,
+        ghnToken: process.env.GHN_TRANSPORT_TOKEN,
+        ghnShopId: process.env.GHN_TRANSPORT_SHOP_ID,
+    },
 };

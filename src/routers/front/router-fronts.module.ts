@@ -35,12 +35,16 @@ import { RecipientsModule } from 'src/apis/recipients/recipients.module';
 import { RecipientsController } from 'src/apis/recipients/controllers/recipients.controller';
 import { DonationItemsModule } from 'src/apis/donation-items/donation-items.module';
 import { DonationItemsController } from 'src/apis/donation-items/controllers/donation-items.controller';
+import { OrdersModule } from 'src/apis/orders/orders.module';
+import { OrdersController } from 'src/apis/orders/controllers/orders.controller';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
     imports: [
         CommonModule,
         UserModule,
         MediaModule,
+        HttpModule,
         AuthModule,
         CategoriesModule,
         PostsModule,
@@ -57,6 +61,7 @@ import { DonationItemsController } from 'src/apis/donation-items/controllers/don
         ReliefCasesModule,
         PaymentGatewayModule,
         RecipientsModule,
+        OrdersModule,
     ],
     controllers: [
         UserController,
@@ -76,6 +81,7 @@ import { DonationItemsController } from 'src/apis/donation-items/controllers/don
         ReliefCasesController,
         PaymentGatewayController,
         RecipientsController,
+        OrdersController,
     ],
     providers: [],
 })
