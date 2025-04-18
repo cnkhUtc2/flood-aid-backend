@@ -48,10 +48,10 @@ export class CreateSupportTicketDto {
         required: true,
         title: 'Status',
         description: 'Current status of the support ticket',
-        enum: ['open', 'in_progress', 'resolved'],
+        enum: ['OPEN', 'ACCEPTED', 'DECLINED'],
     })
     @IsNotEmpty()
-    @IsEnum(['open', 'in_progress', 'resolved'])
+    @IsEnum(['OPEN', 'ACCEPTED', 'DECLINED'])
     status: string;
 
     @SuperApiProperty({

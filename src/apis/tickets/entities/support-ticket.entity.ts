@@ -40,7 +40,7 @@ export class SupportTicket extends AggregateRoot {
     @SuperProp({
         type: String,
         required: true,
-        enum: ['open', 'in_progress', 'resolved_accepted', 'resolved_declined'],
+        enum: ['OPEN', 'ACCEPTED', 'DECLINED'],
     })
     status: string;
 

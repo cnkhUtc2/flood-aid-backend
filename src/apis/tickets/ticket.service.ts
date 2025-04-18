@@ -9,6 +9,7 @@ import { COLLECTION_NAMES } from 'src/constants';
 import { BaseService } from 'src/base/service/base.service';
 import { htmlContent } from '../mail/html/support-ticket-notification';
 import { CreateSupportTicketDto } from './dto/create-support-ticket.dto';
+import { Types } from 'mongoose';
 
 @Injectable()
 export class SupportTicketService extends BaseService<SupportTicketDocument> {

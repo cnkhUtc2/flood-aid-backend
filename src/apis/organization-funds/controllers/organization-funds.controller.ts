@@ -4,10 +4,9 @@ import { Types } from 'mongoose';
 import { UpdateOrganizationFundDto } from '../dto/update-organization-fund.dto';
 import { Me } from 'src/decorators/me.decorator';
 import { UserPayload } from 'src/base/models/user-payload.model';
-import { CreateOrganizationFundDto } from '../dto/create-organization-fund.dto';
 import { PERMISSION, Resource, SuperAuthorize } from '@libs/super-authorize';
 import { ApiTags } from '@nestjs/swagger';
-import { SuperPost, SuperPut } from '@libs/super-core';
+import { SuperPut } from '@libs/super-core';
 
 @Controller('tickets')
 @Resource('tickets')

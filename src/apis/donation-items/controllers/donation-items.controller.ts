@@ -29,20 +29,6 @@ export class DonationItemsController {
         return result;
     }
 
-    @SuperPut({ route: 'update/:id', dto: UpdateDonationItemDto })
-    @SuperAuthorize(PERMISSION.POST)
-    async uodateOne(
-        @Param('id') id: string,
-        @Body() donationItem: UpdateDonationItemDto,
-        @Me() user: UserPayload,
-    ) {
-        await this.donationItemsService.updateOne(
-            new Types.ObjectId(id),
-            donationItem,
-            user,
-        );
-    }
-
     @SuperPost({ route: 'create', dto: CreateDonationItemDto })
     @SuperAuthorize(PERMISSION.POST)
     async createOne(

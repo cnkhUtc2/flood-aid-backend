@@ -15,6 +15,10 @@ import { UserModule } from 'src/apis/users/user.module';
 import { CommonModule } from 'src/common/common.module';
 import { DonationItemsControllerAdmin } from 'src/apis/donation-items/controllers/donation-items.controller.admin';
 import { DonationItemsModule } from 'src/apis/donation-items/donation-items.module';
+import { ReliefCasesModule } from 'src/apis/relief-cases/relief-cases.module';
+import { ReliefCasesControllerAdmin } from 'src/apis/relief-cases/controllers/relief-cases.controller.admin';
+import { OrdersModule } from 'src/apis/orders/orders.module';
+import { OrdersControllerAdmin } from 'src/apis/orders/controllers/orders.controller.admin';
 
 @Module({
     imports: [
@@ -27,6 +31,8 @@ import { DonationItemsModule } from 'src/apis/donation-items/donation-items.modu
         PostsModule,
         MetadataModule,
         DonationItemsModule,
+        ReliefCasesModule,
+        OrdersModule,
     ],
     controllers: [
         MediaControllerAdmin,
@@ -36,6 +42,8 @@ import { DonationItemsModule } from 'src/apis/donation-items/donation-items.modu
         MetadataControllerAdmin,
         UserControllerAdmin,
         DonationItemsControllerAdmin,
+        ReliefCasesControllerAdmin,
+        OrdersControllerAdmin,
     ],
     providers: [],
 })
