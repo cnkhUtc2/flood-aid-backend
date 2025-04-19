@@ -82,13 +82,13 @@ async function bootstrap() {
             .setTitle('API Documentation')
             .setDescription('API description')
             .setVersion('1.0')
-            .addBasicAuth(
-                {
-                    type: 'http',
-                    scheme: 'basic',
-                },
-                'basic',
-            )
+            // .addBasicAuth(
+            //     {
+            //         type: 'http',
+            //         scheme: 'basic',
+            //     },
+            //     'basic',
+            // )
             .addBearerAuth()
             .build();
 

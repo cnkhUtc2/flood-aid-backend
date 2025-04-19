@@ -13,7 +13,7 @@ import {
 
 @Controller('orders')
 @Resource('Orders')
-@ApiTags('Front: Order')
+@ApiTags('Front: Orders')
 export class OrdersController {
     constructor(private readonly ordersService: OrdersService) {}
 
