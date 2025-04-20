@@ -24,6 +24,17 @@ import { OrganizationFundsController } from 'src/apis/organization-funds/control
 import { TicketModule } from 'src/apis/tickets/ticket.module';
 import { SupportTicketControllerAdmin } from 'src/apis/tickets/controllers/ticket.controller.admin';
 import { DonationsModule } from 'src/apis/donations/donations.module';
+import { MailModule } from 'src/apis/mail/mail.module';
+import { MailController } from 'src/apis/mail/controllers/mail.controller';
+import { ProfilesModule } from 'src/apis/profiles/profiles.module';
+import { ProfilesController } from 'src/apis/profiles/controllers/profiles.controller';
+import { DonationsControllerAdmin } from 'src/apis/donations/controllers/donations.controller.admin';
+import { RecipientsModule } from 'src/apis/recipients/recipients.module';
+import { RecipientsControllerAdmin } from 'src/apis/recipients/controllers/recipients.controller.admin';
+import { OrganizationModule } from 'src/apis/organizations/organization.module';
+import { HttpModule } from '@nestjs/axios';
+import { PaymentGatewayModule } from 'src/apis/payment-gateway/payment-gateway.module';
+import { PaymentGatewayControllerAdmin } from 'src/apis/payment-gateway/controllers/payment-gateway.controller.admin';
 
 @Module({
     imports: [
@@ -32,21 +43,28 @@ import { DonationsModule } from 'src/apis/donations/donations.module';
         UserModule,
         MediaModule,
         AuthModule,
+        HttpModule,
         CategoriesModule,
         PostsModule,
+        ProfilesModule,
         MetadataModule,
         DonationItemsModule,
         ReliefCasesModule,
         OrdersModule,
         OrganizationFundsModule,
+        OrganizationModule,
         TicketModule,
         DonationsModule,
+        MailModule,
+        RecipientsModule,
+        PaymentGatewayModule,
     ],
     controllers: [
         MediaControllerAdmin,
         AuthControllerAdmin,
         CategoriesControllerAdmin,
         PostsControllerAdmin,
+        ProfilesController,
         MetadataControllerAdmin,
         UserControllerAdmin,
         DonationItemsControllerAdmin,
@@ -54,7 +72,10 @@ import { DonationsModule } from 'src/apis/donations/donations.module';
         OrdersControllerAdmin,
         OrganizationFundsController,
         SupportTicketControllerAdmin,
-        DonationItemsControllerAdmin,
+        MailController,
+        DonationsControllerAdmin,
+        RecipientsControllerAdmin,
+        PaymentGatewayControllerAdmin,
     ],
     providers: [],
 })
