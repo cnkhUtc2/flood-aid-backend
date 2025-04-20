@@ -33,7 +33,7 @@ export class SupportTicket extends AggregateRoot {
     @SuperProp({
         type: String,
         required: true,
-        enum: ['low', 'medium', 'high'],
+        enum: ['LOW', 'MEDIUM', 'HIGH'],
     })
     priority: string;
 

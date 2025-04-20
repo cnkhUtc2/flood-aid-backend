@@ -2,7 +2,7 @@ import { Body, Controller, Param, Query } from '@nestjs/common';
 import { DonationItemsService } from '../donation-items.service';
 import { PERMISSION, Resource, SuperAuthorize } from '@libs/super-authorize';
 import { ApiTags } from '@nestjs/swagger';
-import { SuperGet, SuperPut } from '@libs/super-core';
+import { SuperGet, SuperPost, SuperPut } from '@libs/super-core';
 import {
     ExtendedPagingDto,
     PagingDtoPipe,
@@ -11,6 +11,7 @@ import { UpdateDonationItemDto } from '../dto/update-donation-item.dto';
 import { Types } from 'mongoose';
 import { Me } from 'src/decorators/me.decorator';
 import { UserPayload } from 'src/base/models/user-payload.model';
+import { CreateDonationItemDto } from '../dto/create-donation-item.dto';
 
 @Controller('donation-items')
 @Resource('donation-items')
@@ -25,6 +26,19 @@ export class DonationItemsControllerAdmin {
         queryParams: ExtendedPagingDto,
     ) {
         const result = await this.donationItemsService.getAll(queryParams);
+        return result;
+    }
+
+    @SuperPost({ route: 'create', dto: CreateDonationItemDto })
+    @SuperAuthorize(PERMISSION.POST)
+    async createOne(
+        @Body() donationItem: CreateDonationItemDto,
+        @Me() user: UserPayload,
+    ) {
+        const result = await this.donationItemsService.createOne(
+            donationItem,
+            user,
+        );
         return result;
     }
 

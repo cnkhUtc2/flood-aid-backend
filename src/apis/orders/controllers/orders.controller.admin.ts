@@ -1,6 +1,6 @@
 import { Body, Controller, Param, Query } from '@nestjs/common';
 import { OrdersService } from '../orders.service';
-import { SuperGet, SuperPut } from '@libs/super-core';
+import { SuperGet, SuperPost, SuperPut } from '@libs/super-core';
 import { PERMISSION, Resource, SuperAuthorize } from '@libs/super-authorize';
 import { UserPayload } from 'src/base/models/user-payload.model';
 import { Me } from 'src/decorators/me.decorator';
@@ -11,10 +11,11 @@ import {
 } from 'src/pipes/page-result.dto.pipe';
 import { UpdateOrderGHNDto } from '../dto/update-order-GHN.dto';
 import { Types } from 'mongoose';
+import { CreateOrderDto } from '../dto/create-order.dto';
 
 @Controller('orders')
-@Resource('Orders')
-@ApiTags('Front: Order')
+@Resource('orders')
+@ApiTags('Admin: Orders')
 export class OrdersControllerAdmin {
     constructor(private readonly ordersService: OrdersService) {}
 
@@ -28,9 +29,16 @@ export class OrdersControllerAdmin {
         return result;
     }
 
+    @SuperPost({ route: 'create', dto: CreateOrderDto })
+    @SuperAuthorize(PERMISSION.POST)
+    async createOne(@Body() body: CreateOrderDto, @Me() user: UserPayload) {
+        const result = await this.ordersService.createOrder(body, user);
+        return result;
+    }
+
     @SuperPut({ route: 'update/:id', dto: UpdateOrderGHNDto })
     @SuperAuthorize(PERMISSION.PUT)
-    async createOne(
+    async updateOne(
         @Param('id') id: string,
         @Body() order: UpdateOrderGHNDto,
         @Me() user: UserPayload,

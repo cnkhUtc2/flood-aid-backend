@@ -19,6 +19,11 @@ import { ReliefCasesModule } from 'src/apis/relief-cases/relief-cases.module';
 import { ReliefCasesControllerAdmin } from 'src/apis/relief-cases/controllers/relief-cases.controller.admin';
 import { OrdersModule } from 'src/apis/orders/orders.module';
 import { OrdersControllerAdmin } from 'src/apis/orders/controllers/orders.controller.admin';
+import { OrganizationFundsModule } from 'src/apis/organization-funds/organization-funds.module';
+import { OrganizationFundsController } from 'src/apis/organization-funds/controllers/organization-funds.controller';
+import { TicketModule } from 'src/apis/tickets/ticket.module';
+import { SupportTicketControllerAdmin } from 'src/apis/tickets/controllers/ticket.controller.admin';
+import { DonationsModule } from 'src/apis/donations/donations.module';
 
 @Module({
     imports: [
@@ -33,6 +38,9 @@ import { OrdersControllerAdmin } from 'src/apis/orders/controllers/orders.contro
         DonationItemsModule,
         ReliefCasesModule,
         OrdersModule,
+        OrganizationFundsModule,
+        TicketModule,
+        DonationsModule,
     ],
     controllers: [
         MediaControllerAdmin,
@@ -44,6 +52,9 @@ import { OrdersControllerAdmin } from 'src/apis/orders/controllers/orders.contro
         DonationItemsControllerAdmin,
         ReliefCasesControllerAdmin,
         OrdersControllerAdmin,
+        OrganizationFundsController,
+        SupportTicketControllerAdmin,
+        DonationItemsControllerAdmin,
     ],
     providers: [],
 })

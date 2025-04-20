@@ -37,10 +37,10 @@ export class CreateSupportTicketDto {
         required: true,
         title: 'Priority',
         description: 'Priority level of the support ticket',
-        enum: ['low', 'medium', 'high'],
+        enum: ['LOW', 'MEDIUM', 'HIGH'],
     })
     @IsNotEmpty()
-    @IsEnum(['low', 'medium', 'high'])
+    @IsEnum(['LOW', 'MEDIUM', 'HIGH'])
     priority: string;
 
     @SuperApiProperty({

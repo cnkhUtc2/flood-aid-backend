@@ -12,7 +12,7 @@ import {
 } from 'src/pipes/page-result.dto.pipe';
 
 @Controller('orders')
-@Resource('Orders')
+@Resource('orders')
 @ApiTags('Front: Orders')
 export class OrdersController {
     constructor(private readonly ordersService: OrdersService) {}

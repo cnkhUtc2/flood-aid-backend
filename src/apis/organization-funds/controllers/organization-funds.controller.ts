@@ -8,9 +8,9 @@ import { PERMISSION, Resource, SuperAuthorize } from '@libs/super-authorize';
 import { ApiTags } from '@nestjs/swagger';
 import { SuperPut } from '@libs/super-core';
 
-@Controller('tickets')
-@Resource('tickets')
-@ApiTags('Front: Tickets')
+@Controller('funds')
+@Resource('funds')
+@ApiTags('Front: Funds')
 export class OrganizationFundsController {
     constructor(
         private readonly organizationFundsService: OrganizationFundsService,
