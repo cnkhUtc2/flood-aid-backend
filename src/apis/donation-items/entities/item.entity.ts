@@ -21,7 +21,8 @@ export class Item extends AggregateRoot {
 
     @SuperProp({
         type: String,
-        required: true,
+        required: false,
+        default: 'DONATE',
     })
     code: string;
 
@@ -33,7 +34,8 @@ export class Item extends AggregateRoot {
 
     @SuperProp({
         type: Number,
-        required: true,
+        required: false,
+        default: 0,
     })
     price: number;
 

@@ -6,7 +6,6 @@ import { JwtModule } from '@nestjs/jwt';
 import { MetadataModule } from '../metadata/metadata.module';
 import { appSettings } from 'src/configs/app-settings';
 import { RolesModule } from '@libs/super-authorize/modules/roles/roles.module';
-import { ConfigModule } from '@nestjs/config';
 import { ProfilesModule } from '../profiles/profiles.module';
 
 @Module({

@@ -6,6 +6,7 @@ import {
     IsArray,
     IsMongoId,
     ArrayNotEmpty,
+    IsOptional,
 } from 'class-validator';
 
 export class CreateItemDto {
@@ -21,7 +22,7 @@ export class CreateItemDto {
         type: String,
         required: true,
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     code: string;
 
@@ -38,7 +39,7 @@ export class CreateItemDto {
         type: Number,
         required: true,
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsNumber()
     price: number;
 
@@ -79,12 +80,9 @@ export class CreateItemDto {
     weight: number;
 
     @SuperApiProperty({
-        type: [String],
+        type: String,
         required: true,
-        default: ['60f3b3b3b3b3b3b3b3b3b3'],
+        default: '60f3b3b3b3b3b3b3b3b3b3',
     })
-    @IsArray()
-    @ArrayNotEmpty()
-    @IsMongoId({ each: true })
-    categories: string[];
+    categories: string;
 }
