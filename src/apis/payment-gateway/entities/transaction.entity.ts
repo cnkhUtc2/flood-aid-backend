@@ -9,51 +9,68 @@ import autopopulateSoftDelete from 'src/utils/mongoose-plugins/autopopulate-soft
 
 @Schema({
     timestamps: true,
-    collection: COLLECTION_NAMES.SUPPORT_TICKET,
+    collection: COLLECTION_NAMES.TRANSACTION,
 })
-export class SupportTicket extends AggregateRoot {
+export class Transaction extends AggregateRoot {
     @SuperProp({
         type: String,
-        required: false,
     })
-    title: string;
+    txnRef: string;
+
+    @SuperProp({
+        type: Number,
+    })
+    amount: string;
 
     @SuperProp({
         type: String,
-        required: true,
     })
-    purpose: string;
+    bankCode: string;
 
     @SuperProp({
         type: String,
-        required: true,
     })
-    description: string;
+    bankTranNo: string;
 
     @SuperProp({
         type: String,
-        required: true,
-        enum: ['LOW', 'MEDIUM', 'HIGH'],
     })
-    priority: string;
+    cardType: string;
 
     @SuperProp({
         type: String,
-        required: true,
-        enum: ['OPEN', 'ACCEPTED', 'DECLINED'],
+    })
+    orderInfo: string;
+
+    @SuperProp({
+        type: String,
+    })
+    payDate: string;
+
+    @SuperProp({
+        type: String,
+    })
+    responseCode: string;
+
+    @SuperProp({
+        type: String,
+    })
+    transactionNo: string;
+
+    @SuperProp({
+        type: String,
+    })
+    transactionStatus: string;
+
+    @SuperProp({
+        type: String,
+    })
+    secureHash: string;
+
+    @SuperProp({
+        type: String,
     })
     status: string;
-
-    @SuperProp({
-        type: String,
-    })
-    location: string;
-
-    // @SuperProp({
-    //     type: [String],
-    //     default: [],
-    // })
-    // attachments: string[];
 
     @SuperProp({
         type: Types.ObjectId,
@@ -65,7 +82,6 @@ export class SupportTicket extends AggregateRoot {
     })
     createdBy: Types.ObjectId;
 }
-
-export type SupportTicketDocument = SupportTicket & Document;
-export const SupportTicketSchema = SchemaFactory.createForClass(SupportTicket);
-SupportTicketSchema.plugin(autopopulateSoftDelete);
+export type TransactionDocument = Transaction & Document;
+export const TransactionSchema = SchemaFactory.createForClass(Transaction);
+TransactionSchema.plugin(autopopulateSoftDelete);

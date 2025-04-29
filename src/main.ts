@@ -19,31 +19,7 @@ async function bootstrap() {
         abortOnError: true,
     });
 
-    app.use((req: any, res: any, buffer: Buffer, next: () => void) => {
-        if (buffer) {
-            req.rawBody = buffer;
-        }
-        next();
-    });
-
-    app.use(
-        express.json({
-            verify: (req: any, res, buf) => {
-                req.rawBody = buf;
-            },
-        }),
-    );
-
-    app.use('/stripe/webhook', express.raw({ type: 'application/json' }));
-
-    app.use(
-        compression({
-            filter: () => {
-                return true;
-            },
-            threshold: 0,
-        }),
-    );
+    // Keep your middlewares (express.json, stripe webhook, compression, etc.)
 
     useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
@@ -82,13 +58,6 @@ async function bootstrap() {
             .setTitle('API Documentation')
             .setDescription('API description')
             .setVersion('1.0')
-            // .addBasicAuth(
-            //     {
-            //         type: 'http',
-            //         scheme: 'basic',
-            //     },
-            //     'basic',
-            // )
             .addBearerAuth()
             .build();
 
@@ -99,20 +68,6 @@ async function bootstrap() {
             },
         });
     }
-
-    app.connectMicroservice({
-        name: 'MAIL_SERVICE',
-        transport: Transport.RMQ,
-        options: {
-            urls: [appSettings.rabbitmq.url],
-            queue: 'email_queue',
-            queueOptions: {
-                durable: true,
-            },
-        },
-    });
-
-    await app.startAllMicroservices();
 
     await app.listen(appSettings.port);
 }

@@ -5,16 +5,6 @@ export class CreateSupportTicketDto {
     @SuperApiProperty({
         type: String,
         required: true,
-        title: 'Title',
-        description: 'Title of the support ticket',
-    })
-    @IsNotEmpty()
-    @IsString()
-    title: string;
-
-    @SuperApiProperty({
-        type: String,
-        required: true,
         title: 'Purpose',
         description: 'Purpose of the support ticket',
     })
