@@ -4,7 +4,16 @@ import { SuperDelete } from '@libs/super-core/decorators/super-delete.decorator'
 import { SuperGet } from '@libs/super-core/decorators/super-get.decorator';
 import { SuperPost } from '@libs/super-core/decorators/super-post.decorator';
 import { SuperPut } from '@libs/super-core/decorators/super-put.decorator';
-import { Body, Controller, Param, Query, Req } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Param,
+    Query,
+    Req,
+    UploadedFile,
+    UseInterceptors,
+} from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiParam, ApiQuery, ApiTags } from '@nestjs/swagger';
 import _ from 'lodash';
 import { Types } from 'mongoose';
@@ -17,6 +26,7 @@ import { COLLECTION_NAMES } from 'src/constants';
 import { Me } from 'src/decorators/me.decorator';
 import { AUDIT_EVENT } from 'src/packages/audits/constants';
 import { AuditLog } from 'src/packages/audits/decorators/audits.decorator';
+import { IUploadedMulterFile } from 'src/packages/s3/s3.service';
 import {
     ExtendedPagingDto,
     PagingDtoPipe,
@@ -45,27 +55,16 @@ export class PostsControllerAdmin {
     async getAll(
         @Query(new PagingDtoPipe())
         queryParams: ExtendedPagingDto,
-        @Param('type') type: PostType,
     ) {
-        const result = await this.postsService.getAll(queryParams, { type });
+        const result = await this.postsService.getAll(queryParams);
 
         return result;
     }
 
-    @SuperGet({ route: ':type/:id' })
+    @SuperGet({ route: ':id' })
     @SuperAuthorize(PERMISSION.GET)
-    @ApiParam({ name: 'id', type: String })
-    @ApiParam({
-        name: 'locale',
-        required: false,
-        type: String,
-        description: 'The locale of the content',
-    })
-    async getOne(
-        @Param('id', ParseObjectIdPipe) _id: Types.ObjectId,
-        @Param('type') type: PostType,
-    ) {
-        const result = await this.postsService.getOne(_id, { type });
+    async getOne(@Param('id') id: string) {
+        const result = await this.postsService.getOne(new Types.ObjectId(id));
         return result;
     }
 
@@ -77,10 +76,12 @@ export class PostsControllerAdmin {
         type: String,
         description: 'The locale of the content',
     })
+    @UseInterceptors(FileInterceptor('featuredImage'))
     async create(
         @Body() createPostDto: CreatePostDto,
         @Me() user: UserPayload,
         @Param('type') type: PostType,
+        @UploadedFile() featuredImage: IUploadedMulterFile,
     ) {
         const { name } = createPostDto;
 
@@ -88,10 +89,7 @@ export class PostsControllerAdmin {
             createPostDto,
             type,
             user,
-            {
-                type,
-                slug: await this.postsService.generateSlug(name),
-            },
+            featuredImage,
         );
         return result;
     }
@@ -112,9 +110,6 @@ export class PostsControllerAdmin {
             type,
             updatePostDto,
             user,
-            {
-                slug: await this.postsService.generateSlug(name),
-            },
         );
 
         return result;

@@ -58,40 +58,22 @@ export class CreatePostDto extends PartialType(ExcludeDto) {
     @IsOptional()
     position: number;
 
-    @SuperApiProperty({
-        type: String,
-        description: 'Featured image id of the post',
-        default: '60f3b3b3b3b3b3b3b3b3b3',
-        title: 'Featured Image',
-        cms: {
-            ref: COLLECTION_NAMES.FILE,
-        },
-    })
-    @IsOptional()
-    @Transform(({ value }) => convertStringToObjectId(value))
-    @IsExist({
-        collectionName: COLLECTION_NAMES.FILE,
-        message: 'Featured image does not exist',
-    })
-    featuredImage: Types.ObjectId;
-
-    @SuperApiProperty({
-        type: [String],
-        description: 'Category of id the post',
-        default: ['60f3b3b3b3b3b3b3b3b3b3'],
-        title: 'Category',
-        cms: {
-            ref: COLLECTION_NAMES.CATEGORIES,
-        },
-    })
-    @IsOptional()
-    @Transform(({ value }) => convertStringToObjectId(value, true))
-    @IsExist({
-        collectionName: COLLECTION_NAMES.CATEGORIES,
-        message: 'Category does not exist',
-        isArray: true,
-    })
-    categories: Types.ObjectId[];
+    // @SuperApiProperty({
+    //     type: String,
+    //     description: 'Featured image id of the post',
+    //     default: '60f3b3b3b3b3b3b3b3b3b3',
+    //     title: 'Featured Image',
+    //     cms: {
+    //         ref: COLLECTION_NAMES.FILE,
+    //     },
+    // })
+    // @IsOptional()
+    // @Transform(({ value }) => convertStringToObjectId(value))
+    // @IsExist({
+    //     collectionName: COLLECTION_NAMES.FILE,
+    //     message: 'Featured image does not exist',
+    // })
+    // featuredImage: Types.ObjectId;
 
     @SuperApiProperty({
         type: String,
@@ -119,41 +101,4 @@ export class CreatePostDto extends PartialType(ExcludeDto) {
     @IsString()
     @IsOptional()
     longDescription: string;
-
-    @SuperApiProperty({
-        type: Date,
-        description: 'Published date of the post',
-        default: new Date(),
-        title: 'Published Date',
-    })
-    @IsOptional()
-    @IsDate()
-    @Transform(({ value }) => (value == null ? null : new Date(value)))
-    publishedStart: Date;
-
-    @SuperApiProperty({
-        type: Date,
-        default: new Date(),
-        description: 'Published end date of the post',
-        title: 'Published End Date',
-    })
-    @IsOptional()
-    @IsDate()
-    @Transform(({ value }) => (value == null ? null : new Date(value)))
-    publishedEnd: Date;
-
-    @SuperApiProperty({
-        type: SEOTagDto,
-        description: 'SEO tag of the page',
-        title: 'SEO Tag',
-        required: true,
-        default: {
-            title: 'Post',
-            description: 'Post',
-        },
-    })
-    @IsOptional()
-    @ValidateNested()
-    @Type(() => SEOTagDto)
-    seoTag: SEOTagDto;
 }

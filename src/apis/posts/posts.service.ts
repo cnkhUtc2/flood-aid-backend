@@ -15,12 +15,15 @@ import { calculateEstimatedReadingTime } from './common/calculate-estimated-read
 import { activePublications } from 'src/base/aggregates/active-publications.aggregates';
 import { ExtendedInjectModel } from '@libs/super-core';
 import { ExtendedModel } from '@libs/super-core/interfaces/extended-model.interface';
+import { IUploadedMulterFile } from 'src/packages/s3/s3.service';
+import { MediaService } from '../media/medias.service';
 
 @Injectable()
 export class PostsService extends BaseService<PostDocument> {
     constructor(
         @ExtendedInjectModel(COLLECTION_NAMES.POST)
         private readonly postModel: ExtendedModel<PostDocument>,
+        private readonly mediaService: MediaService,
     ) {
         super(postModel);
     }
@@ -50,6 +53,7 @@ export class PostsService extends BaseService<PostDocument> {
         createPostDto: CreatePostDto,
         type: PostType,
         user: UserPayload,
+        featuredImage?: IUploadedMulterFile,
         options?: Record<string, any>,
     ) {
         const { position, longDescription } = createPostDto;
@@ -59,12 +63,19 @@ export class PostsService extends BaseService<PostDocument> {
         const estimatedReadingTime =
             calculateEstimatedReadingTime(longDescription);
 
+        const uploadedFiles = await this.mediaService.createFile(
+            featuredImage,
+            user,
+            'posts',
+        );
+
         const result = await this.postModel.create({
             ...createPostDto,
             ...options,
             type,
             createdBy: user._id,
             estimatedReadingTime,
+            featuredImage: uploadedFiles._id,
         });
         return result;
     }
@@ -77,12 +88,6 @@ export class PostsService extends BaseService<PostDocument> {
         options?: Record<string, any>,
     ) {
         const { _id: userId } = user;
-        const { position, longDescription } = updatePostDto;
-
-        await this.updatePosition(position, type);
-
-        const estimatedReadingTime =
-            calculateEstimatedReadingTime(longDescription);
 
         const result = await this.postModel.findOneAndUpdate(
             { _id, type },
@@ -90,7 +95,6 @@ export class PostsService extends BaseService<PostDocument> {
                 ...updatePostDto,
                 ...options,
                 updatedBy: userId,
-                estimatedReadingTime,
             },
         );
 
