@@ -8,12 +8,18 @@ import { UserPayload } from 'src/base/models/user-payload.model';
 import { htmlContent } from '../mail/html/donate-success-notification';
 import { RecipientsService } from '../recipients/recipients.service';
 import { AccountDto } from './dto/account.dto';
+import { Request, Response } from 'express';
+import { TransactionService } from './transaction.service';
+import { Types } from 'mongoose';
+import { VnpayService } from './vnpay.service';
 
 @Injectable()
 export class PaymentGatewayService {
     constructor(
         private readonly donationService: DonationsService,
         private readonly recipientService: RecipientsService,
+        private readonly transactionService: TransactionService,
+        private readonly vnpayService: VnpayService,
         @Inject('MAIL_SERVICE') private readonly client: ClientProxy,
     ) {}
     private stripe = new Stripe(appSettings.stripe.secretKey, {});
@@ -75,7 +81,7 @@ export class PaymentGatewayService {
                 text: `Dear Supporter, Thank you for your generous donation.`,
                 html: htmlContent,
             };
-            await this.client.emit('send_email', message);
+            // await this.client.emit('send_email', message);
 
             const paymentIntent = await this.stripe.paymentIntents.retrieve(
                 session.payment_intent as string,
@@ -139,5 +145,67 @@ export class PaymentGatewayService {
                 stripeAccountId: account.id,
             });
         }
+    }
+
+    async createVnpayUrl(
+        amount: number,
+        currency: string,
+        req: Request,
+        user: UserPayload,
+    ) {
+        const ipAddr =
+            (Array.isArray(req.headers['x-forwarded-for'])
+                ? req.headers['x-forwarded-for'][0]
+                : req.headers['x-forwarded-for']) ||
+            req.socket?.remoteAddress ||
+            req.connection?.remoteAddress;
+
+        const url = this.vnpayService.createPaymentUrl(
+            amount,
+            currency,
+            ipAddr,
+            user,
+        );
+
+        const { email } = user;
+
+        const message = {
+            email,
+            subject: 'Thank You for Your Generous Donation',
+            text: `Dear Supporter, Thank you for your generous donation.`,
+            html: htmlContent,
+        };
+        await this.client.emit('send_email', message);
+        return { url };
+    }
+
+    async vnpayReturn(query: Record<string, any>, res: Response) {
+        const orderInfo = decodeURIComponent(query.vnp_OrderInfo);
+        const userIdMatch = orderInfo.match(/cho user:\s*([a-f0-9]{24})/i);
+        const createdBy = userIdMatch ? userIdMatch[1] : null;
+
+        const transaction = {
+            txnRef: query.vnp_TxnRef,
+            amount: parseInt(query.vnp_Amount),
+            bankCode: query.vnp_BankCode,
+            bankTranNo: query.vnp_BankTranNo,
+            cardType: query.vnp_CardType,
+            orderInfo: decodeURIComponent(query.vnp_OrderInfo),
+            payDate: query.vnp_PayDate,
+            responseCode: query.vnp_ResponseCode,
+            transactionNo: query.vnp_TransactionNo,
+            transactionStatus: query.vnp_TransactionStatus,
+            secureHash: query.vnp_SecureHash,
+            status:
+                query.vnp_ResponseCode === '00' &&
+                query.vnp_TransactionStatus === '00'
+                    ? 'success'
+                    : 'failed',
+            createdBy: new Types.ObjectId(createdBy),
+        };
+
+        await this.transactionService.model.create(transaction);
+
+        return res.redirect(`http://localhost:5173/payment-success`);
     }
 }

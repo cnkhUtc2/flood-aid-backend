@@ -1,4 +1,5 @@
 import { SuperApiProperty } from '@libs/super-core/decorators/super-api-property.decorator';
+import { Transform } from 'class-transformer';
 import {
     IsNotEmpty,
     IsOptional,
@@ -7,6 +8,7 @@ import {
     IsDateString,
     IsNumber,
 } from 'class-validator';
+import { convertStringToObjectId } from 'src/utils/helper';
 
 export class CreateReliefCaseDto {
     @SuperApiProperty({
@@ -44,10 +46,10 @@ export class CreateReliefCaseDto {
         required: true,
         title: 'Status',
         description: 'Status of the relief case',
-        enum: ['active', 'closed'],
+        enum: ['ACTIVE', 'CLOSED'],
     })
-    @IsNotEmpty()
-    @IsEnum(['active', 'closed'])
+    @IsOptional()
+    @IsEnum(['ACTIVE', 'CLOSED'])
     status: string;
 
     @SuperApiProperty({
@@ -57,7 +59,7 @@ export class CreateReliefCaseDto {
         description: 'Start date of the relief case (ISO format)',
         example: '2025-04-01T00:00:00.000Z',
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsDateString()
     startDate: string;
 
@@ -112,4 +114,12 @@ export class CreateReliefCaseDto {
     @IsOptional()
     @IsString()
     contactPhone?: string;
+
+    @SuperApiProperty({
+        required: true,
+        type: String,
+    })
+    @IsNotEmpty()
+    @Transform(({ value }) => convertStringToObjectId(value))
+    supportTicket: string;
 }

@@ -2,6 +2,7 @@ import { SuperProp } from '@libs/super-core';
 import { AutoPopulate } from '@libs/super-search';
 import { Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
+import { SupportTicket } from 'src/apis/tickets/entities/support-ticket.entity';
 import { User } from 'src/apis/users/entities/user.entity';
 import { AggregateRoot } from 'src/base/entities/aggregate-root.schema';
 import { COLLECTION_NAMES } from 'src/constants';
@@ -33,14 +34,13 @@ export class ReliefCase extends AggregateRoot {
     @SuperProp({
         type: String,
         required: true,
-        enum: ['active', 'closed'],
-        default: 'active',
+        enum: ['ACTIVE', 'CLOSED'],
+        default: 'ACTIVE',
     })
     status: string;
 
     @SuperProp({
         type: Date,
-        required: true,
     })
     startDate: Date;
 
@@ -70,6 +70,16 @@ export class ReliefCase extends AggregateRoot {
         type: String,
     })
     contactPhone: string;
+
+    @SuperProp({
+        type: Types.ObjectId,
+        ref: COLLECTION_NAMES.SUPPORT_TICKET,
+        refClass: SupportTicket,
+    })
+    @AutoPopulate({
+        ref: COLLECTION_NAMES.SUPPORT_TICKET,
+    })
+    supportTicket: Types.ObjectId;
 
     @SuperProp({
         type: Types.ObjectId,

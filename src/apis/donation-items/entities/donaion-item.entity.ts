@@ -49,8 +49,8 @@ export class DonationItem extends AggregateRoot {
     @SuperProp({
         type: String,
         required: true,
-        enum: ['open', 'accepted', 'declined'],
-        default: 'open',
+        enum: ['OPEN', 'ACCEPTED', 'DECLINED'],
+        default: 'OPEN',
     })
     status: string;
 

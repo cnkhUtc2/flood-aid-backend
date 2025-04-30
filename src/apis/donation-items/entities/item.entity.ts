@@ -20,10 +20,48 @@ export class Item extends AggregateRoot {
     name: string;
 
     @SuperProp({
+        type: String,
+        required: false,
+        default: 'DONATE',
+    })
+    code: string;
+
+    @SuperProp({
         type: Number,
         required: true,
     })
-    number: number;
+    quantity: number;
+
+    @SuperProp({
+        type: Number,
+        required: false,
+        default: 0,
+    })
+    price: number;
+
+    @SuperProp({
+        type: Number,
+        required: true,
+    })
+    length: number;
+
+    @SuperProp({
+        type: Number,
+        required: true,
+    })
+    width: number;
+
+    @SuperProp({
+        type: Number,
+        required: true,
+    })
+    height: number;
+
+    @SuperProp({
+        type: Number,
+        required: true,
+    })
+    weight: number;
 
     @SuperProp({
         type: [Types.ObjectId],

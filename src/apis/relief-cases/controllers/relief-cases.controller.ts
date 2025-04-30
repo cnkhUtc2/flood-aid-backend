@@ -1,16 +1,20 @@
-import { Body, Controller, Param } from '@nestjs/common';
+import { Body, Controller, Query } from '@nestjs/common';
 import { ReliefCasesService } from '../relief-cases.service';
 import { PERMISSION, Resource, SuperAuthorize } from '@libs/super-authorize';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { AuditLog } from 'src/packages/audits/decorators/audits.decorator';
 import { AUDIT_EVENT } from 'src/packages/audits/constants';
 import { COLLECTION_NAMES } from 'src/constants';
-import { SuperPost, SuperPut } from '@libs/super-core';
+import { SuperDelete, SuperGet, SuperPost } from '@libs/super-core';
 import { CreateReliefCaseDto } from '../dto/create-relief-case.dto';
 import { Me } from 'src/decorators/me.decorator';
 import { UserPayload } from 'src/base/models/user-payload.model';
-import { UpdateReliefCaseDto } from '../dto/update-relief-case.dto';
+import {
+    ExtendedPagingDto,
+    PagingDtoPipe,
+} from 'src/pipes/page-result.dto.pipe';
 import { Types } from 'mongoose';
+import { ParseObjectIdArrayPipe } from 'src/pipes/parse-object-ids.pipe';
 
 @Controller('relief-cases')
 @Resource('relief-cases')
@@ -22,6 +26,16 @@ import { Types } from 'mongoose';
 export class ReliefCasesController {
     constructor(private readonly reliefCasesService: ReliefCasesService) {}
 
+    @SuperGet({ route: '/' })
+    @SuperAuthorize(PERMISSION.GET)
+    async getAll(
+        @Query(new PagingDtoPipe())
+        queryParams: ExtendedPagingDto,
+    ) {
+        const result = await this.reliefCasesService.getAll(queryParams);
+        return result;
+    }
+
     @SuperPost({ route: 'create', dto: CreateReliefCaseDto })
     @SuperAuthorize(PERMISSION.POST)
     async createOne(
@@ -29,20 +43,5 @@ export class ReliefCasesController {
         @Body() ticket: CreateReliefCaseDto,
     ) {
         return this.reliefCasesService.createOne(ticket, user);
-    }
-
-    @SuperPut({ route: 'update/:id', dto: UpdateReliefCaseDto })
-    @SuperAuthorize(PERMISSION.PUT)
-    async updateOne(
-        @Param('id') caseId: string,
-        @Me() user: UserPayload,
-        @Body() ticket: UpdateReliefCaseDto,
-    ) {
-        const result = await this.reliefCasesService.updateOneById(
-            new Types.ObjectId(caseId),
-            ticket,
-            user,
-        );
-        return result;
     }
 }

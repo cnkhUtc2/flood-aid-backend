@@ -19,7 +19,7 @@ import { UserPayload } from 'src/base/models/user-payload.model';
 export class DonationItemsController {
     constructor(private readonly donationItemsService: DonationItemsService) {}
 
-    @SuperGet()
+    @SuperGet({ route: '/' })
     @SuperAuthorize(PERMISSION.GET)
     async getAll(
         @Query(new PagingDtoPipe())
@@ -27,20 +27,6 @@ export class DonationItemsController {
     ) {
         const result = await this.donationItemsService.getAll(queryParams);
         return result;
-    }
-
-    @SuperPut({ route: 'update/:id', dto: UpdateDonationItemDto })
-    @SuperAuthorize(PERMISSION.POST)
-    async uodateOne(
-        @Param('id') id: string,
-        @Body() donationItem: UpdateDonationItemDto,
-        @Me() user: UserPayload,
-    ) {
-        await this.donationItemsService.updateOne(
-            new Types.ObjectId(id),
-            donationItem,
-            user,
-        );
     }
 
     @SuperPost({ route: 'create', dto: CreateDonationItemDto })

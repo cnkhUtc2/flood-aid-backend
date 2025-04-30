@@ -43,7 +43,7 @@ export class DonationItemsService extends BaseService<DonationItemDocument> {
 
         const { email } = donor;
 
-        if (result.status === 'accepted') {
+        if (result.status === 'ACCEPTED') {
             const message = {
                 email,
                 subject: 'Thank You for Your Generous Donation',

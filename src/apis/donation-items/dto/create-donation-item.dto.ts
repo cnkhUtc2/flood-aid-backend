@@ -9,14 +9,6 @@ export class CreateDonationItemDto {
     })
     @IsOptional()
     @IsString()
-    title: string;
-
-    @SuperApiProperty({
-        type: String,
-        required: false,
-    })
-    @IsOptional()
-    @IsString()
     message: string;
 
     @SuperApiProperty({

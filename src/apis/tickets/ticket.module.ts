@@ -7,6 +7,7 @@ import {
     SupportTicketSchema,
 } from './entities/support-ticket.entity';
 import { MailModule } from '../mail/mail.module';
+import { MediaModule } from '../media/medias.module';
 
 @Module({
     imports: [
@@ -17,6 +18,7 @@ import { MailModule } from '../mail/mail.module';
                 entity: SupportTicket,
             },
         ]),
+        MediaModule,
         MailModule,
     ],
     controllers: [],
