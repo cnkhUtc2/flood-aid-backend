@@ -41,7 +41,6 @@ export class ReliefCase extends AggregateRoot {
 
     @SuperProp({
         type: Date,
-        required: true,
     })
     startDate: Date;
 

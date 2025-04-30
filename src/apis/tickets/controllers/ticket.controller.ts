@@ -1,4 +1,11 @@
-import { Body, Controller, Query, UseGuards } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Param,
+    Query,
+    UploadedFiles,
+    UseInterceptors,
+} from '@nestjs/common';
 import { SupportTicketService } from '../ticket.service';
 import { CreateSupportTicketDto } from '../dto/create-support-ticket.dto';
 import { UserPayload } from 'src/base/models/user-payload.model';
@@ -13,6 +20,9 @@ import {
     ExtendedPagingDto,
     PagingDtoPipe,
 } from 'src/pipes/page-result.dto.pipe';
+import { FilesInterceptor } from '@nestjs/platform-express';
+import { IUploadedMulterFile } from 'src/packages/s3/s3.service';
+import { Types } from 'mongoose';
 
 @Controller('tickets')
 @Resource('tickets')
@@ -29,17 +39,27 @@ export class SupportTicketController {
     async getAll(
         @Query(new PagingDtoPipe())
         queryParams: ExtendedPagingDto,
+        options?: Record<string, any>,
     ) {
-        const result = await this.ticketService.getAll(queryParams);
+        const result = await this.ticketService.getAll(queryParams, options);
+        return result;
+    }
+
+    @SuperGet({ route: ':id' })
+    @SuperAuthorize(PERMISSION.GET)
+    async getOne(@Param('id') id: string) {
+        const result = await this.ticketService.getOne(new Types.ObjectId(id));
         return result;
     }
 
     @SuperPost({ route: 'create', dto: CreateSupportTicketDto })
     @SuperAuthorize(PERMISSION.POST)
+    @UseInterceptors(FilesInterceptor('attachments'))
     async createOne(
         @Me() user: UserPayload,
         @Body() ticket: CreateSupportTicketDto,
+        @UploadedFiles() attachments: IUploadedMulterFile[],
     ) {
-        return this.ticketService.createOne(ticket, user);
+        return this.ticketService.createOne(ticket, user, attachments);
     }
 }

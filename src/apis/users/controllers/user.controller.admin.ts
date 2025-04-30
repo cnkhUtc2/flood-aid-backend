@@ -60,8 +60,9 @@ export class UserControllerAdmin {
     async getAll(
         @Query(new PagingDtoPipe())
         queryParams: ExtendedPagingDto,
+        options?: Record<string, any>,
     ) {
-        const result = await this.userService.getAllAdmin(queryParams);
+        const result = await this.userService.getAll(queryParams, options);
         return result;
     }
 

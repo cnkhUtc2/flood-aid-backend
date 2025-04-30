@@ -48,7 +48,7 @@ export class CreateReliefCaseDto {
         description: 'Status of the relief case',
         enum: ['ACTIVE', 'CLOSED'],
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsEnum(['ACTIVE', 'CLOSED'])
     status: string;
 
@@ -59,7 +59,7 @@ export class CreateReliefCaseDto {
         description: 'Start date of the relief case (ISO format)',
         example: '2025-04-01T00:00:00.000Z',
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsDateString()
     startDate: string;
 

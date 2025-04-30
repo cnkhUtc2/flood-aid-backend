@@ -5,8 +5,6 @@ export class CreateSupportTicketDto {
     @SuperApiProperty({
         type: String,
         required: true,
-        title: 'Purpose',
-        description: 'Purpose of the support ticket',
     })
     @IsNotEmpty()
     @IsString()
@@ -15,8 +13,6 @@ export class CreateSupportTicketDto {
     @SuperApiProperty({
         type: String,
         required: true,
-        title: 'Description',
-        description: 'Detailed description of the support ticket',
     })
     @IsNotEmpty()
     @IsString()
@@ -24,20 +20,23 @@ export class CreateSupportTicketDto {
 
     @SuperApiProperty({
         type: String,
-        required: true,
-        title: 'Priority',
-        description: 'Priority level of the support ticket',
+        required: false,
         enum: ['LOW', 'MEDIUM', 'HIGH'],
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsEnum(['LOW', 'MEDIUM', 'HIGH'])
     priority: string;
 
     @SuperApiProperty({
+        type: Boolean,
+        required: false,
+    })
+    @IsOptional()
+    isCreatedReliefCase: boolean;
+
+    @SuperApiProperty({
         type: String,
         required: true,
-        title: 'Status',
-        description: 'Current status of the support ticket',
         enum: ['OPEN', 'ACCEPTED', 'DECLINED'],
     })
     @IsNotEmpty()
@@ -47,19 +46,32 @@ export class CreateSupportTicketDto {
     @SuperApiProperty({
         type: String,
         required: false,
-        title: 'Location',
-        description: 'Location related to the support ticket',
     })
     @IsOptional()
     @IsString()
-    location?: string;
+    city?: string;
 
-    // @SuperApiProperty({
-    //     type: [String],
-    //     required: false,
-    //     title: 'Attachments',
-    //     description: 'List of file attachments for the support ticket',
-    // })
-    // @IsOptional()
-    // attachments?: string[];
+    @SuperApiProperty({
+        type: String,
+        required: false,
+    })
+    @IsOptional()
+    @IsString()
+    province?: string;
+
+    @SuperApiProperty({
+        type: String,
+        required: false,
+    })
+    @IsOptional()
+    @IsString()
+    ward?: string;
+
+    @SuperApiProperty({
+        type: String,
+        required: false,
+    })
+    @IsOptional()
+    @IsString()
+    address?: string;
 }

@@ -60,8 +60,11 @@ export class UserService
         }
     }
 
-    async getAllAdmin(queryParams: ExtendedPagingDto) {
-        const result = await this.getAll(queryParams);
+    async getAllAdmin(
+        queryParams: ExtendedPagingDto,
+        options?: Record<string, any>,
+    ) {
+        const result = await this.getAll(queryParams, options);
         return result;
     }
 

@@ -1,11 +1,11 @@
 import { Body, Controller, Query } from '@nestjs/common';
 import { ReliefCasesService } from '../relief-cases.service';
 import { PERMISSION, Resource, SuperAuthorize } from '@libs/super-authorize';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { AuditLog } from 'src/packages/audits/decorators/audits.decorator';
 import { AUDIT_EVENT } from 'src/packages/audits/constants';
 import { COLLECTION_NAMES } from 'src/constants';
-import { SuperGet, SuperPost } from '@libs/super-core';
+import { SuperDelete, SuperGet, SuperPost } from '@libs/super-core';
 import { CreateReliefCaseDto } from '../dto/create-relief-case.dto';
 import { Me } from 'src/decorators/me.decorator';
 import { UserPayload } from 'src/base/models/user-payload.model';
@@ -13,6 +13,8 @@ import {
     ExtendedPagingDto,
     PagingDtoPipe,
 } from 'src/pipes/page-result.dto.pipe';
+import { Types } from 'mongoose';
+import { ParseObjectIdArrayPipe } from 'src/pipes/parse-object-ids.pipe';
 
 @Controller('relief-cases')
 @Resource('relief-cases')
