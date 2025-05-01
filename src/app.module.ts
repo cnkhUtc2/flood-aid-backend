@@ -12,6 +12,7 @@ import { appSettings } from './configs/app-settings';
 import { AuditsModule } from './packages/audits/audits.module';
 import { MultipleLanguageModule } from '@libs/super-multiple-language/multiple-language.module';
 import { SuperCacheModule } from '@libs/super-cache/super-cache.module';
+import { PostsModule } from './apis/posts/posts.module';
 
 @Module({
     imports: [
@@ -32,7 +33,7 @@ import { SuperCacheModule } from '@libs/super-cache/super-cache.module';
         MultipleLanguageModule,
         AuditsModule,
         SuperAuthorizeModule.forRoot({
-            paths: ['admin', 'front'],
+            paths: ['admin', 'front', 'common'],
             jwt: {
                 secret: appSettings.jwt.secret,
                 issuer: appSettings.jwt.issuer,

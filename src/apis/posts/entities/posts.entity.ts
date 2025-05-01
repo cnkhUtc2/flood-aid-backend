@@ -33,18 +33,6 @@ export class Post extends AggregateRoot {
     name: MultipleLanguageType;
 
     @SuperProp({
-        type: String,
-        required: false,
-        unique: true,
-        cms: {
-            label: 'Slug',
-            tableShow: true,
-            columnPosition: 2,
-        },
-    })
-    slug: string;
-
-    @SuperProp({
         type: Number,
         default: 99999,
         cms: {
