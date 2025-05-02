@@ -52,6 +52,13 @@ export class UserController {
         return result;
     }
 
+    @SuperGet({ route: 'get/profile/:id' })
+    @SuperAuthorize(PERMISSION.GET)
+    async getProfileById(@Param('id') id: string) {
+        const result = await this.profileService.getOne(new Types.ObjectId(id));
+        return result;
+    }
+
     @SuperPost({ route: 'add-friend', dto: AddFriendDto })
     @SuperAuthorize(PERMISSION.POST)
     async addFriend(

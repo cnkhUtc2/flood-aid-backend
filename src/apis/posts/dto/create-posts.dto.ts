@@ -1,23 +1,16 @@
 import { PartialType } from '@nestjs/swagger';
-import { Transform, Type } from 'class-transformer';
 import {
-    IsDate,
     IsEnum,
     IsNotEmpty,
     IsNumber,
     IsOptional,
     IsString,
     MaxLength,
-    ValidateNested,
 } from 'class-validator';
-import { Types } from 'mongoose';
 import { ExcludeDto } from 'src/base/dto/exclude.dto';
-import { IsExist } from 'src/common/services/is-exist-constraint.service';
-import { COLLECTION_NAMES } from 'src/constants';
 import { PostStatus } from '../constants';
-import { convertStringToObjectId } from 'src/utils/helper';
 import { SuperApiProperty } from '@libs/super-core/decorators/super-api-property.decorator';
-import { SEOTagDto } from 'src/apis/pages/dto/create-pages.dto';
+import { CreateSentimentDto } from 'src/apis/sentiments/dto/create-sentiment.dto';
 
 export class CreatePostDto extends PartialType(ExcludeDto) {
     @SuperApiProperty({
@@ -58,22 +51,11 @@ export class CreatePostDto extends PartialType(ExcludeDto) {
     @IsOptional()
     position: number;
 
-    // @SuperApiProperty({
-    //     type: String,
-    //     description: 'Featured image id of the post',
-    //     default: '60f3b3b3b3b3b3b3b3b3b3',
-    //     title: 'Featured Image',
-    //     cms: {
-    //         ref: COLLECTION_NAMES.FILE,
-    //     },
-    // })
-    // @IsOptional()
-    // @Transform(({ value }) => convertStringToObjectId(value))
-    // @IsExist({
-    //     collectionName: COLLECTION_NAMES.FILE,
-    //     message: 'Featured image does not exist',
-    // })
-    // featuredImage: Types.ObjectId;
+    @SuperApiProperty({
+        type: CreateSentimentDto,
+    })
+    @IsOptional()
+    sentimentDto: CreateSentimentDto;
 
     @SuperApiProperty({
         type: String,

@@ -17,6 +17,7 @@ import { ExtendedInjectModel } from '@libs/super-core';
 import { ExtendedModel } from '@libs/super-core/interfaces/extended-model.interface';
 import { IUploadedMulterFile } from 'src/packages/s3/s3.service';
 import { MediaService } from '../media/medias.service';
+import { SentimentsService } from '../sentiments/sentiments.service';
 
 @Injectable()
 export class PostsService extends BaseService<PostDocument> {
@@ -24,6 +25,7 @@ export class PostsService extends BaseService<PostDocument> {
         @ExtendedInjectModel(COLLECTION_NAMES.POST)
         private readonly postModel: ExtendedModel<PostDocument>,
         private readonly mediaService: MediaService,
+        private readonly sentimentService: SentimentsService,
     ) {
         super(postModel);
     }
@@ -69,10 +71,15 @@ export class PostsService extends BaseService<PostDocument> {
             'posts',
         );
 
+        const newSentiment = await this.sentimentService.model.create(
+            createPostDto.sentimentDto,
+        );
+
         const result = await this.postModel.create({
             ...createPostDto,
             ...options,
             type,
+            sentiment: newSentiment._id,
             createdBy: user._id,
             estimatedReadingTime,
             featuredImage: uploadedFiles._id,

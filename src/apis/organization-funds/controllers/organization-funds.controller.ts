@@ -16,19 +16,6 @@ export class OrganizationFundsController {
         private readonly organizationFundsService: OrganizationFundsService,
     ) {}
 
-    // @SuperPost({ route: 'create', dto: CreateOrganizationFundDto })
-    // @SuperAuthorize(PERMISSION.POST)
-    // async createOne(
-    //     @Body() fund: CreateOrganizationFundDto,
-    //     @Me() user: UserPayload,
-    // ) {
-    //     const result = await this.organizationFundsService.createOne(
-    //         fund,
-    //         user,
-    //     );
-    //     return result;
-    // }
-
     @SuperPut({ route: 'update/:id', dto: UpdateOrganizationFundDto })
     @SuperAuthorize(PERMISSION.PUT)
     async updateOne(

@@ -12,6 +12,7 @@ import { Request, Response } from 'express';
 import { TransactionService } from './transaction.service';
 import { Types } from 'mongoose';
 import { VnpayService } from './vnpay.service';
+import { OrganizationFundsService } from '../organization-funds/organization-funds.service';
 
 @Injectable()
 export class PaymentGatewayService {
@@ -20,6 +21,7 @@ export class PaymentGatewayService {
         private readonly recipientService: RecipientsService,
         private readonly transactionService: TransactionService,
         private readonly vnpayService: VnpayService,
+        private readonly fund: OrganizationFundsService,
         @Inject('MAIL_SERVICE') private readonly client: ClientProxy,
     ) {}
     private stripe = new Stripe(appSettings.stripe.secretKey, {});
@@ -205,6 +207,11 @@ export class PaymentGatewayService {
         };
 
         await this.transactionService.model.create(transaction);
+
+        await this.fund.model.findByIdAndUpdate(
+            new Types.ObjectId('60d23f5c9b12a83e8c8f1234'),
+            { currentAmount: transaction.amount ?? 0 },
+        );
 
         return res.redirect(`http://localhost:5173/payment-success`);
     }

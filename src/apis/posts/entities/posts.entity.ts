@@ -14,6 +14,7 @@ import { File } from 'src/apis/media/entities/files.entity';
 import { SuperProp } from '@libs/super-core/decorators/super-prop.decorator';
 import { SEOTag } from 'src/apis/pages/entities/pages.entity';
 import { User } from 'src/apis/users/entities/user.entity';
+import { Sentiment } from 'src/apis/sentiments/entities/sentiment.entity';
 @Schema({
     timestamps: true,
     collection: COLLECTION_NAMES.POST,
@@ -138,6 +139,16 @@ export class Post extends AggregateRoot {
         type: SEOTag,
     })
     seoTag: SEOTag;
+
+    @SuperProp({
+        type: Types.ObjectId,
+        ref: COLLECTION_NAMES.SENTIMENT,
+        refClass: Sentiment,
+    })
+    @AutoPopulate({
+        ref: COLLECTION_NAMES.SENTIMENT,
+    })
+    sentiment: Types.ObjectId;
 
     @SuperProp({
         type: Types.ObjectId,
