@@ -10,6 +10,7 @@ import {
     ExtendedPagingDto,
     PagingDtoPipe,
 } from 'src/pipes/page-result.dto.pipe';
+import { authorize } from 'passport';
 
 @Controller('orders')
 @Resource('orders')
@@ -18,7 +19,6 @@ export class OrdersController {
     constructor(private readonly ordersService: OrdersService) {}
 
     @SuperGet({ route: '/' })
-    @SuperAuthorize(PERMISSION.GET)
     async getAll(
         @Query(new PagingDtoPipe())
         queryParams: ExtendedPagingDto,

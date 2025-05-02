@@ -1,8 +1,8 @@
 import { Body, Controller, Param, Query } from '@nestjs/common';
 import { DonationItemsService } from '../donation-items.service';
 import { PERMISSION, Resource, SuperAuthorize } from '@libs/super-authorize';
-import { ApiTags } from '@nestjs/swagger';
-import { SuperGet, SuperPost, SuperPut } from '@libs/super-core';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { SuperDelete, SuperGet, SuperPost, SuperPut } from '@libs/super-core';
 import {
     ExtendedPagingDto,
     PagingDtoPipe,
@@ -12,6 +12,7 @@ import { Types } from 'mongoose';
 import { Me } from 'src/decorators/me.decorator';
 import { UserPayload } from 'src/base/models/user-payload.model';
 import { CreateDonationItemDto } from '../dto/create-donation-item.dto';
+import { ParseObjectIdArrayPipe } from 'src/pipes/parse-object-ids.pipe';
 
 @Controller('donation-items')
 @Resource('donation-items')
@@ -54,5 +55,16 @@ export class DonationItemsControllerAdmin {
             donationItem,
             user,
         );
+    }
+
+    @SuperDelete()
+    @SuperAuthorize(PERMISSION.DELETE)
+    @ApiQuery({ name: 'ids', type: [String] })
+    async deletes(
+        @Query('ids', ParseObjectIdArrayPipe) _ids: Types.ObjectId[],
+        @Me() user: UserPayload,
+    ) {
+        const result = await this.donationItemsService.deletes(_ids, user);
+        return result;
     }
 }

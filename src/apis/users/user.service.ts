@@ -232,7 +232,7 @@ export class UserService
         return _ids;
     }
 
-    private async hashPassword(password: string) {
+    async hashPassword(password: string) {
         const salt = await bcrypt.genSalt(10);
         return await bcrypt.hash(password, salt);
     }

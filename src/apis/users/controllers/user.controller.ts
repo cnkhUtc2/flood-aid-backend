@@ -24,6 +24,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { appSettings } from 'src/configs/app-settings';
 import { IUploadedMulterFile } from 'src/packages/s3/s3.service';
 import { UpdateUserDto } from '../dto/update-user.dto';
+import * as bcrypt from 'bcrypt';
 
 @Controller('users')
 @Resource('users')
@@ -94,6 +95,12 @@ export class UserController {
         @Body() account: UpdateUserDto,
         @Me() user: UserPayload,
     ) {
+        if (account.password) {
+            account.password = await this.userService.hashPassword(
+                account.password,
+            );
+        }
+
         const existingUser = await this.userService.updateOneById(
             new Types.ObjectId(userId),
             account,

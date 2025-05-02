@@ -58,12 +58,12 @@ export class ReliefCasesControllerAdmin {
     @SuperPut({ route: 'update/:id', dto: UpdateReliefCaseDto })
     @SuperAuthorize(PERMISSION.PUT)
     async updateOne(
-        @Param('id') caseId: string,
+        @Param('id') id: string,
         @Me() user: UserPayload,
         @Body() ticket: UpdateReliefCaseDto,
     ) {
         const result = await this.reliefCasesService.updateOneById(
-            new Types.ObjectId(caseId),
+            new Types.ObjectId(id),
             ticket,
             user,
         );

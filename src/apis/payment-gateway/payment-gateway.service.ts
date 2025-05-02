@@ -210,7 +210,7 @@ export class PaymentGatewayService {
 
         await this.fund.model.findByIdAndUpdate(
             new Types.ObjectId('60d23f5c9b12a83e8c8f1234'),
-            { currentAmount: transaction.amount ?? 0 },
+            { $inc: { currentAmount: transaction.amount / 100 } },
         );
 
         return res.redirect(`http://localhost:5173/payment-success`);

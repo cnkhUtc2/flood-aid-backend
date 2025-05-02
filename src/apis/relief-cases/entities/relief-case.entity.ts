@@ -40,6 +40,12 @@ export class ReliefCase extends AggregateRoot {
     status: string;
 
     @SuperProp({
+        type: String,
+        enum: ['LOW', 'MEDIUM', 'HIGH', 'EMERGENCY'],
+    })
+    priority: string;
+
+    @SuperProp({
         type: Date,
     })
     startDate: Date;

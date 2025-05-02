@@ -43,14 +43,19 @@ export class CreateReliefCaseDto {
 
     @SuperApiProperty({
         type: String,
-        required: true,
-        title: 'Status',
-        description: 'Status of the relief case',
         enum: ['ACTIVE', 'CLOSED'],
     })
     @IsOptional()
     @IsEnum(['ACTIVE', 'CLOSED'])
     status: string;
+
+    @SuperApiProperty({
+        type: String,
+        enum: ['LOW', 'MEDIUM', 'HIGH', 'EMERGENCY'],
+    })
+    @IsOptional()
+    @IsEnum(['LOW', 'MEDIUM', 'HIGH', 'EMERGENCY'])
+    priority: string;
 
     @SuperApiProperty({
         type: String,
@@ -73,16 +78,6 @@ export class CreateReliefCaseDto {
     @IsOptional()
     @IsDateString()
     endDate?: string;
-
-    // Optional mediaLinks (uncomment if you want to use it)
-    // @SuperApiProperty({
-    //     type: [String],
-    //     required: false,
-    //     title: 'Media Links',
-    //     description: 'Media links related to the relief case',
-    // })
-    // @IsOptional()
-    // mediaLinks?: string[];
 
     @SuperApiProperty({
         type: Number,
@@ -119,7 +114,7 @@ export class CreateReliefCaseDto {
         required: true,
         type: String,
     })
-    @IsNotEmpty()
+    @IsOptional()
     @Transform(({ value }) => convertStringToObjectId(value))
     supportTicket: string;
 }
