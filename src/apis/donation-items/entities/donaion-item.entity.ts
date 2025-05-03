@@ -40,16 +40,12 @@ export class DonationItem extends AggregateRoot {
         default: [],
         required: false,
     })
-    @AutoPopulate({
-        ref: COLLECTION_NAMES.ITEM,
-        isArray: true,
-    })
     items: Item[];
 
     @SuperProp({
         type: String,
         required: true,
-        enum: ['OPEN', 'ACCEPTED', 'DECLINED'],
+        enum: ['OPEN', 'ACCEPTED', 'DECLINED', 'ORDER CREATED'],
         default: 'OPEN',
     })
     status: string;

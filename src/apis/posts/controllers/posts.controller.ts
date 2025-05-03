@@ -45,7 +45,6 @@ export class PostsController {
     constructor(private readonly postsService: PostsService) {}
 
     @SuperGet({ route: ':type' })
-    @SuperAuthorize(PERMISSION.GET)
     @ApiParam({
         name: 'locale',
         required: false,
@@ -62,7 +61,6 @@ export class PostsController {
     }
 
     @SuperGet({ route: ':id' })
-    @SuperAuthorize(PERMISSION.GET)
     async getOne(@Param('id') id: string) {
         const result = await this.postsService.getOne(new Types.ObjectId(id));
         return result;

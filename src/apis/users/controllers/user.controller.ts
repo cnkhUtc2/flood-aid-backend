@@ -24,6 +24,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { appSettings } from 'src/configs/app-settings';
 import { IUploadedMulterFile } from 'src/packages/s3/s3.service';
 import { UpdateUserDto } from '../dto/update-user.dto';
+import * as bcrypt from 'bcrypt';
 
 @Controller('users')
 @Resource('users')
@@ -49,6 +50,13 @@ export class UserController {
     @SuperAuthorize(PERMISSION.GET)
     async getById(@Param('id') id: string) {
         const result = await this.userService.getById(id);
+        return result;
+    }
+
+    @SuperGet({ route: 'get/profile/:id' })
+    @SuperAuthorize(PERMISSION.GET)
+    async getProfileById(@Param('id') id: string) {
+        const result = await this.profileService.getOne(new Types.ObjectId(id));
         return result;
     }
 
@@ -87,6 +95,12 @@ export class UserController {
         @Body() account: UpdateUserDto,
         @Me() user: UserPayload,
     ) {
+        if (account.password) {
+            account.password = await this.userService.hashPassword(
+                account.password,
+            );
+        }
+
         const existingUser = await this.userService.updateOneById(
             new Types.ObjectId(userId),
             account,

@@ -4,6 +4,7 @@ import { COLLECTION_NAMES } from 'src/constants';
 import { PostSchema, Post } from './entities/posts.entity';
 import { ExtendedMongooseModule } from '@libs/super-core/modules/mongoose/extended-mongoose.module';
 import { MediaModule } from '../media/medias.module';
+import { SentimentsModule } from '../sentiments/sentiments.module';
 
 @Module({
     imports: [
@@ -11,6 +12,7 @@ import { MediaModule } from '../media/medias.module';
             { name: COLLECTION_NAMES.POST, schema: PostSchema, entity: Post },
         ]),
         MediaModule,
+        SentimentsModule,
     ],
     controllers: [],
     providers: [PostsService],

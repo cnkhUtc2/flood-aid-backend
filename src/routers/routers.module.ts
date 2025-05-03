@@ -33,6 +33,10 @@ export class RoutersModule {
                             module: RouterAdminsModule,
                         },
                         {
+                            path: '/common',
+                            module: RouterCommonModule,
+                        },
+                        {
                             path: '/admin',
                             module: RouterAdminsModuleDev,
                         },

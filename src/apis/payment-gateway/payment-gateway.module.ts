@@ -8,6 +8,7 @@ import { TransactionService } from './transaction.service';
 import { ExtendedMongooseModule } from '@libs/super-core/modules/mongoose/extended-mongoose.module';
 import { COLLECTION_NAMES } from 'src/constants';
 import { Transaction, TransactionSchema } from './entities/transaction.entity';
+import { OrganizationFundsModule } from '../organization-funds/organization-funds.module';
 
 @Module({
     imports: [
@@ -21,6 +22,7 @@ import { Transaction, TransactionSchema } from './entities/transaction.entity';
         DonationsModule,
         MailModule,
         RecipientsModule,
+        OrganizationFundsModule,
     ],
     providers: [PaymentGatewayService, VnpayService, TransactionService],
     exports: [PaymentGatewayService, VnpayService, TransactionService],

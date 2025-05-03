@@ -37,6 +37,7 @@ export enum COLLECTION_NAMES {
     ITEM = 'items',
     ORDER = 'orders',
     TRANSACTION = 'transactions',
+    SENTIMENT = 'sentiments',
 }
 
 export enum CountryCode {

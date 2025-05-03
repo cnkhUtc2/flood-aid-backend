@@ -20,14 +20,11 @@ import { ReliefCasesControllerAdmin } from 'src/apis/relief-cases/controllers/re
 import { OrdersModule } from 'src/apis/orders/orders.module';
 import { OrdersControllerAdmin } from 'src/apis/orders/controllers/orders.controller.admin';
 import { OrganizationFundsModule } from 'src/apis/organization-funds/organization-funds.module';
-import { OrganizationFundsController } from 'src/apis/organization-funds/controllers/organization-funds.controller';
 import { TicketModule } from 'src/apis/tickets/ticket.module';
 import { SupportTicketControllerAdmin } from 'src/apis/tickets/controllers/ticket.controller.admin';
 import { DonationsModule } from 'src/apis/donations/donations.module';
 import { MailModule } from 'src/apis/mail/mail.module';
 import { MailController } from 'src/apis/mail/controllers/mail.controller';
-import { ProfilesModule } from 'src/apis/profiles/profiles.module';
-import { ProfilesController } from 'src/apis/profiles/controllers/profiles.controller';
 import { DonationsControllerAdmin } from 'src/apis/donations/controllers/donations.controller.admin';
 import { RecipientsModule } from 'src/apis/recipients/recipients.module';
 import { RecipientsControllerAdmin } from 'src/apis/recipients/controllers/recipients.controller.admin';
@@ -35,6 +32,7 @@ import { OrganizationModule } from 'src/apis/organizations/organization.module';
 import { HttpModule } from '@nestjs/axios';
 import { PaymentGatewayModule } from 'src/apis/payment-gateway/payment-gateway.module';
 import { PaymentGatewayControllerAdmin } from 'src/apis/payment-gateway/controllers/payment-gateway.controller.admin';
+import { OrganizationFundsControllerAdmin } from 'src/apis/organization-funds/controllers/organization-funds.controller.admin';
 
 @Module({
     imports: [
@@ -46,7 +44,6 @@ import { PaymentGatewayControllerAdmin } from 'src/apis/payment-gateway/controll
         HttpModule,
         CategoriesModule,
         PostsModule,
-        ProfilesModule,
         MetadataModule,
         DonationItemsModule,
         ReliefCasesModule,
@@ -64,13 +61,12 @@ import { PaymentGatewayControllerAdmin } from 'src/apis/payment-gateway/controll
         AuthControllerAdmin,
         CategoriesControllerAdmin,
         PostsControllerAdmin,
-        ProfilesController,
         MetadataControllerAdmin,
         UserControllerAdmin,
         DonationItemsControllerAdmin,
         ReliefCasesControllerAdmin,
         OrdersControllerAdmin,
-        OrganizationFundsController,
+        OrganizationFundsControllerAdmin,
         SupportTicketControllerAdmin,
         MailController,
         DonationsControllerAdmin,

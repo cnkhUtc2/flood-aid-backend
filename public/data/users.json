@@ -12,11 +12,11 @@
     },
     {
         "_id": {
-            "$oid": "667a4598531a324b19865ea1"
+            "$oid": "667b7b83462a35d0fbe5d251"
         },
-        "name": "Admin",
+        "name": "Andeptrai",
         "email": "user@gmail.com",
-        "password": "$2a$10$wbLPgDAJ3oTmQAiigDQwFe8rm.Mw7qLhhcD1uUHWTEg3yuhKLwaBC",
+        "password": "$2b$10$MUf5QskpV4cdl7oc2R9N8uGHQb4P5CDwWDx2bb9wK7kIn33PL.f9O",
         "role": {
             "$oid": "667b7b83462a35d0fbe5d251"
         }

@@ -1,10 +1,17 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+    BadRequestException,
+    Injectable,
+    NotFoundException,
+} from '@nestjs/common';
 import { UserPayload } from 'src/base/models/user-payload.model';
 import { JwtService } from '@nestjs/jwt';
 import { appSettings } from 'src/configs/app-settings';
 import { UserService } from '../users/user.service';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { ProfilesService } from '../profiles/profiles.service';
+import { CheckPasswordDto } from './dto/checkPassword.dto';
+import * as bcrypt from 'bcrypt';
+import { Types } from 'mongoose';
 
 @Injectable()
 export class AuthService {
@@ -33,6 +40,22 @@ export class AuthService {
         await newUser.save();
 
         return newUser;
+    }
+
+    async checkPassword(passwordDto: CheckPasswordDto) {
+        const existingUser = await this.userService.model
+            .findById(new Types.ObjectId(passwordDto.id))
+            .exec();
+
+        const isMatch = await bcrypt.compare(
+            passwordDto.password,
+            existingUser.password,
+        );
+        if (!isMatch) {
+            throw new BadRequestException('Invalid password');
+        }
+
+        return existingUser;
     }
 
     private async getTokens(user: UserPayload) {

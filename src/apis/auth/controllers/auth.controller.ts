@@ -4,13 +4,14 @@ import { AuditLog } from 'src/packages/audits/decorators/audits.decorator';
 import { AUDIT_EVENT } from 'src/packages/audits/constants';
 import { COLLECTION_NAMES } from 'src/constants';
 import { AuthService } from '../auth.service';
-import { Resource } from '@libs/super-authorize';
+import { PERMISSION, Resource, SuperAuthorize } from '@libs/super-authorize';
 import { SuperPost } from '@libs/super-core';
 import { UserLoginDto } from '../dto/user-login.dto';
 import { LocalAuthGuard } from 'src/guards/local-auth.guard';
 import { Me } from 'src/decorators/me.decorator';
 import { UserPayload } from 'src/base/models/user-payload.model';
 import { CreateUserDto } from 'src/apis/users/dto/create-user.dto';
+import { CheckPasswordDto } from '../dto/checkPassword.dto';
 
 @Controller('auth')
 @Resource()
@@ -33,6 +34,11 @@ export class AuthController {
             return undefined;
         }
         return await this.authService.login(user);
+    }
+
+    @SuperPost({ route: 'check-pass', dto: CheckPasswordDto })
+    async checkPassword(@Body() pasword: CheckPasswordDto) {
+        return await this.authService.checkPassword(pasword);
     }
 
     @SuperPost({ route: 'register', dto: CreateUserDto })

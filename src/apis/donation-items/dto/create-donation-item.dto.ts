@@ -23,10 +23,10 @@ export class CreateDonationItemDto {
 
     @SuperApiProperty({
         type: String,
-        enum: ['open', 'accepted', 'declined'],
-        default: 'open',
+        enum: ['OPEN', 'ACCEPTED', 'DECLINED', 'ORDER CREATED'],
+        default: 'OPEN',
     })
-    @IsEnum(['open', 'accepted', 'declined'])
+    @IsEnum(['OPEN', 'ACCEPTED', 'DECLINED', 'ORDER CREATED'])
     status: string;
 
     @SuperApiProperty({

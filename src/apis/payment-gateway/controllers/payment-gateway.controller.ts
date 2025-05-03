@@ -1,4 +1,4 @@
-import { Controller, Body, Query, Req, Res } from '@nestjs/common';
+import { Controller, Body, Query, Req, Res, Param } from '@nestjs/common';
 import { PaymentGatewayService } from '../payment-gateway.service';
 import { SuperGet, SuperPut } from '@libs/super-core';
 import { PERMISSION, Resource, SuperAuthorize } from '@libs/super-authorize';
@@ -7,6 +7,12 @@ import { Me } from 'src/decorators/me.decorator';
 import { UserPayload } from 'src/base/models/user-payload.model';
 import { AccountDto } from '../dto/account.dto';
 import { Request, Response } from 'express';
+import { TransactionService } from '../transaction.service';
+import {
+    ExtendedPagingDto,
+    PagingDtoPipe,
+} from 'src/pipes/page-result.dto.pipe';
+import { Types } from 'mongoose';
 
 @Controller('payment-gateway')
 @Resource('payment-gateway')
@@ -14,6 +20,7 @@ import { Request, Response } from 'express';
 export class PaymentGatewayController {
     constructor(
         private readonly paymentGatewayService: PaymentGatewayService,
+        private readonly transactionService: TransactionService,
     ) {}
 
     @SuperGet({ route: 'create-vnpay-url' })
@@ -83,5 +90,26 @@ export class PaymentGatewayController {
     @SuperAuthorize(PERMISSION.PUT)
     async confirmStripeAccount(@Body() dto: AccountDto) {
         return await this.paymentGatewayService.confirmStripeAccount(dto);
+    }
+
+    @SuperGet({ route: '/transactions' })
+    async getAll(
+        @Query(new PagingDtoPipe())
+        queryParams: ExtendedPagingDto,
+        options?: Record<string, any>,
+    ) {
+        const result = await this.transactionService.getAll(
+            queryParams,
+            options,
+        );
+        return result;
+    }
+
+    @SuperGet({ route: '/transaction/:id' })
+    async getOne(@Param('id') id: string) {
+        const result = await this.transactionService.getOne(
+            new Types.ObjectId(id),
+        );
+        return result;
     }
 }
