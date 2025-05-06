@@ -38,6 +38,7 @@ export enum COLLECTION_NAMES {
     ORDER = 'orders',
     TRANSACTION = 'transactions',
     SENTIMENT = 'sentiments',
+    COMMENT = 'comments',
 }
 
 export enum CountryCode {

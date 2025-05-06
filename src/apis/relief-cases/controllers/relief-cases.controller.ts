@@ -5,7 +5,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { AuditLog } from 'src/packages/audits/decorators/audits.decorator';
 import { AUDIT_EVENT } from 'src/packages/audits/constants';
 import { COLLECTION_NAMES } from 'src/constants';
-import { SuperGet, SuperPost } from '@libs/super-core';
+import { SuperGet, SuperPost, SuperPut } from '@libs/super-core';
 import { CreateReliefCaseDto } from '../dto/create-relief-case.dto';
 import { Me } from 'src/decorators/me.decorator';
 import { UserPayload } from 'src/base/models/user-payload.model';
@@ -27,12 +27,34 @@ export class ReliefCasesController {
     constructor(private readonly reliefCasesService: ReliefCasesService) {}
 
     @SuperGet({ route: '/' })
-    @SuperAuthorize(PERMISSION.GET)
     async getAll(
         @Query(new PagingDtoPipe())
         queryParams: ExtendedPagingDto,
     ) {
         const result = await this.reliefCasesService.getAll(queryParams);
+        return result;
+    }
+
+    @SuperGet({ route: ':id' })
+    async getOne(@Param('id') id: string) {
+        const result = await this.reliefCasesService.getOne(
+            new Types.ObjectId(id),
+        );
+        return result;
+    }
+
+    @SuperPut({ route: 'update/:id', dto: UpdateReliefCaseDto })
+    @SuperAuthorize(PERMISSION.PUT)
+    async updateOne(
+        @Param('id') id: string,
+        @Me() user: UserPayload,
+        @Body() ticket: UpdateReliefCaseDto,
+    ) {
+        const result = await this.reliefCasesService.updateOneById(
+            new Types.ObjectId(id),
+            ticket,
+            user,
+        );
         return result;
     }
 

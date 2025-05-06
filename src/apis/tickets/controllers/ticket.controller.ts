@@ -35,7 +35,6 @@ export class SupportTicketController {
     constructor(private readonly ticketService: SupportTicketService) {}
 
     @SuperGet({ route: '/' })
-    @SuperAuthorize(PERMISSION.GET)
     async getAll(
         @Query(new PagingDtoPipe())
         queryParams: ExtendedPagingDto,
@@ -46,7 +45,6 @@ export class SupportTicketController {
     }
 
     @SuperGet({ route: ':id' })
-    @SuperAuthorize(PERMISSION.GET)
     async getOne(@Param('id') id: string) {
         const result = await this.ticketService.getOne(new Types.ObjectId(id));
         return result;

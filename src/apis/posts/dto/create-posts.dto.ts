@@ -11,6 +11,7 @@ import { ExcludeDto } from 'src/base/dto/exclude.dto';
 import { PostStatus } from '../constants';
 import { SuperApiProperty } from '@libs/super-core/decorators/super-api-property.decorator';
 import { CreateSentimentDto } from 'src/apis/sentiments/dto/create-sentiment.dto';
+import { Types } from 'mongoose';
 
 export class CreatePostDto extends PartialType(ExcludeDto) {
     @SuperApiProperty({
@@ -83,4 +84,9 @@ export class CreatePostDto extends PartialType(ExcludeDto) {
     @IsString()
     @IsOptional()
     longDescription: string;
+
+    @SuperApiProperty({
+        type: Types.ObjectId,
+    })
+    featuredImage: Types.ObjectId;
 }

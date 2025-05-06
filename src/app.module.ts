@@ -13,6 +13,7 @@ import { AuditsModule } from './packages/audits/audits.module';
 import { MultipleLanguageModule } from '@libs/super-multiple-language/multiple-language.module';
 import { SuperCacheModule } from '@libs/super-cache/super-cache.module';
 import { SentimentsModule } from './apis/sentiments/sentiments.module';
+import { CommentsModule } from './apis/comments/comments.module';
 
 @Module({
     imports: [
@@ -49,6 +50,7 @@ import { SentimentsModule } from './apis/sentiments/sentiments.module';
             // },
         }),
         SentimentsModule,
+        CommentsModule,
     ],
     controllers: [],
     providers: [],
