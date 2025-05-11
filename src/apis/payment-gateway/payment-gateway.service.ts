@@ -213,6 +213,6 @@ export class PaymentGatewayService {
             { $inc: { currentAmount: transaction.amount / 100 } },
         );
 
-        return res.redirect(`http://localhost:5173/payment-success`);
+        return res.redirect(appSettings.vnpay.returnSuccess);
     }
 }

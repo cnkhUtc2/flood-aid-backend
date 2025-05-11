@@ -25,6 +25,7 @@ export const appSettings = {
         hashSecret: process.env.VNP_HASH_SECRET,
         url: process.env.VNP_URL,
         returnUrl: process.env.VNP_RETURN_URL,
+        returnSuccess: process.env.VNP_RETURN_SUCCESS,
     },
     donateUrl: {
         donateSuccessUrl: process.env.DONATE_SUCCESS_URL,
@@ -64,5 +65,8 @@ export const appSettings = {
         ghnApi: process.env.GHN_TRANSPORT_API,
         ghnToken: process.env.GHN_TRANSPORT_TOKEN,
         ghnShopId: process.env.GHN_TRANSPORT_SHOP_ID,
+    },
+    google: {
+        clientId: process.env.GOOGLE_CLIENT_ID,
     },
 };

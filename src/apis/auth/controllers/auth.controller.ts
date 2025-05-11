@@ -12,6 +12,7 @@ import { Me } from 'src/decorators/me.decorator';
 import { UserPayload } from 'src/base/models/user-payload.model';
 import { CreateUserDto } from 'src/apis/users/dto/create-user.dto';
 import { CheckPasswordDto } from '../dto/checkPassword.dto';
+import { GoogleLogin } from '../dto/google-login.dto';
 
 @Controller('auth')
 @Resource()
@@ -44,5 +45,10 @@ export class AuthController {
     @SuperPost({ route: 'register', dto: CreateUserDto })
     async register(@Body() userRegisterDto: CreateUserDto) {
         return await this.authService.register(userRegisterDto);
+    }
+
+    @SuperPost({ route: 'google-login', dto: GoogleLogin })
+    async googleLogin(@Body() body: GoogleLogin) {
+        return this.authService.handleGoogleLogin(body.token);
     }
 }

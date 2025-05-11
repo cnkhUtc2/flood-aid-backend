@@ -1,7 +1,7 @@
 import {
     BadRequestException,
     Injectable,
-    NotFoundException,
+    UnauthorizedException,
 } from '@nestjs/common';
 import { UserPayload } from 'src/base/models/user-payload.model';
 import { JwtService } from '@nestjs/jwt';
@@ -11,7 +11,11 @@ import { CreateUserDto } from '../users/dto/create-user.dto';
 import { ProfilesService } from '../profiles/profiles.service';
 import { CheckPasswordDto } from './dto/checkPassword.dto';
 import * as bcrypt from 'bcrypt';
+import { OAuth2Client } from 'google-auth-library';
 import { Types } from 'mongoose';
+import { v4 as uuidv4 } from 'uuid';
+
+const client = new OAuth2Client(appSettings.google.clientId);
 
 @Injectable()
 export class AuthService {
@@ -56,6 +60,45 @@ export class AuthService {
         }
 
         return existingUser;
+    }
+
+    async handleGoogleLogin(idToken: string) {
+        const ticket = await client.verifyIdToken({
+            idToken,
+            audience: process.env.GOOGLE_CLIENT_ID,
+        });
+
+        const payload = ticket.getPayload();
+        if (!payload || !payload.email) {
+            throw new UnauthorizedException('Invalid Google token');
+        }
+
+        let user = await this.userService.getOne({
+            email: payload.email,
+        });
+
+        if (!user) {
+            const randomPassword = uuidv4();
+
+            user = await this.userService.model.create({
+                email: payload.email,
+                name: payload.name || 'unknown',
+                password: randomPassword,
+                role: '667b7b83462a35d0fbe5d251',
+            });
+            const newProfile = await this.profileService.createOne(user._id);
+            user.profile = newProfile._id;
+            await user.save();
+        }
+
+        const token = await this.getTokens({
+            _id: new Types.ObjectId(user?._id),
+            email: payload?.email || 'unknown',
+            name: payload?.name || 'unknown',
+            roleId: new Types.ObjectId('667b7b83462a35d0fbe5d251'),
+        });
+
+        return token;
     }
 
     private async getTokens(user: UserPayload) {
